@@ -30,8 +30,11 @@ public class LockablePlaceListener extends BaseListener<GroupLock> {
 			block.setMetadata("owner", new FixedMetadataValue(plugin, player.getName()));
 			block.setMetadata("allowed", new FixedMetadataValue(plugin, new ArrayList<String>()));
 			
-			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + type.name().toLowerCase() + " created successfully"));
-			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "To unlock it use /lock while looking at it or hit it with a stick"));
+			plugin.lockedBlocks.add(block);
+			
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + type.name().toLowerCase() + " created"));
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "To unlock it use /lock while looking at it"));
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "alternativly, you can hit it with a stick"));
 		}
 	}
 	
