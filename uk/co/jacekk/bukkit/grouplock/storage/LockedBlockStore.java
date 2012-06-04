@@ -19,9 +19,13 @@ public class LockedBlockStore {
 	private HashMap<ChunkLocationStorable, ArrayList<LockedBlockStorable>> blocks;
 	private File storageFile;
 	
+	private long lastSave;
+	
 	public LockedBlockStore(File storageFile){
 		this.blocks = new HashMap<ChunkLocationStorable, ArrayList<LockedBlockStorable>>();
 		this.storageFile = storageFile;
+		
+		this.lastSave = 0L;
 		
 		if (this.storageFile.exists() == false){
 			try{
@@ -91,6 +95,12 @@ public class LockedBlockStore {
 		}
 		
 		this.blocks.put(chunkLocation, new ArrayList<LockedBlockStorable>(Arrays.asList(blockLocation)));
+		
+		long timeNow = System.currentTimeMillis();
+		
+		if (timeNow - this.lastSave > 60000){ // 60 seconds
+			this.save();
+		}
 	}
 	
 	public void remove(Block block){

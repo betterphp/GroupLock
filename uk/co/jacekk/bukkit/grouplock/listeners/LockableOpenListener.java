@@ -21,7 +21,7 @@ public class LockableOpenListener extends BaseListener<GroupLock> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerIntereact(PlayerInteractEvent event){
 		Block block = event.getClickedBlock();
 		Material type = block.getType();
