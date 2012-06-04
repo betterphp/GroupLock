@@ -21,17 +21,21 @@ public class GroupLock extends BasePlugin {
 	public List<Material> lockableContainers;
 	public LockedBlockStore lockedBlocks;
 	
+	public Locker locker;
+	
 	public void onEnable(){
 		super.onEnable(true);
-		
-		this.lockedBlocks = new LockedBlockStore(new File(this.baseDirPath + File.separator + "locked-blocks.bin"));
-		this.lockedBlocks.load();
 		
 		this.lockableContainers = Arrays.asList(
 			Material.CHEST,
 			Material.FURNACE,
 			Material.DISPENSER
 		);
+		
+		this.lockedBlocks = new LockedBlockStore(new File(this.baseDirPath + File.separator + "locked-blocks.bin"));
+		this.lockedBlocks.load();
+		
+		this.locker = new Locker(this);
 		
 		for (LockedBlockStorable storedBlock : this.lockedBlocks.getAll()){
 			Block block = storedBlock.getBlock();

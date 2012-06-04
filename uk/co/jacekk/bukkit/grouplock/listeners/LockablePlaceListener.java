@@ -1,7 +1,5 @@
 package uk.co.jacekk.bukkit.grouplock.listeners;
 
-import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -9,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
@@ -27,10 +24,7 @@ public class LockablePlaceListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		
 		if (plugin.lockableContainers.contains(type)){
-			block.setMetadata("owner", new FixedMetadataValue(plugin, player.getName()));
-			block.setMetadata("allowed", new FixedMetadataValue(plugin, new ArrayList<String>()));
-			
-			plugin.lockedBlocks.add(block);
+			plugin.locker.lock(block, player.getName());
 			
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + type.name().toLowerCase() + " created"));
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "To unlock it use /lock while looking at it"));
