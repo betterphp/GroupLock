@@ -11,9 +11,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 
-public class LockableOpenListener extends GroupLockListener {
+public class LockableOpenListener extends BaseListener<GroupLock> {
 	
 	public LockableOpenListener(GroupLock plugin){
 		super(plugin);
@@ -27,13 +28,15 @@ public class LockableOpenListener extends GroupLockListener {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && this.lockableContainers.contains(type) && block.hasMetadata("owner")){
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && plugin.lockableContainers.contains(type) && block.hasMetadata("owner")){
 			String owner = (String) block.getMetadata("owner").get(0).value();
 			ArrayList<String> allowed = (ArrayList<String>) block.getMetadata("allowed").get(0).value();
 			
 			if (!owner.equals(playerName) && !allowed.contains(playerName)){
 				event.setCancelled(true);
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + type.name().toLowerCase() + " is locked by " + owner));
+			}else{
+				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Access to " + type.name().toLowerCase() + " granted"));
 			}
 		}
 	}

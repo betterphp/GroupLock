@@ -8,9 +8,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 
+import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 
-public class LockableBreakListener extends GroupLockListener {
+public class LockableBreakListener extends BaseListener<GroupLock> {
 	
 	public LockableBreakListener(GroupLock plugin){
 		super(plugin);
@@ -22,7 +23,7 @@ public class LockableBreakListener extends GroupLockListener {
 		Material type = block.getType();
 		Player player = event.getPlayer();
 		
-		if (this.lockableContainers.contains(type) && block.hasMetadata("owner")){
+		if (plugin.lockableContainers.contains(type) && block.hasMetadata("owner")){
 			String owner = (String) block.getMetadata("owner").get(0).value();
 			
 			if (!owner.equals(player.getName())){
