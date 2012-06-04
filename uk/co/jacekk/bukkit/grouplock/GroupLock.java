@@ -10,6 +10,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableBreakListener;
+import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableOpenListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockablePlaceListener;
 import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStorable;
@@ -39,6 +40,7 @@ public class GroupLock extends BasePlugin {
 			block.setMetadata("allowed", new FixedMetadataValue(this, storedBlock.getAllowed()));
 		}
 		
+		this.pluginManager.registerEvents(new LockableLockListener(this), this);
 		this.pluginManager.registerEvents(new LockablePlaceListener(this), this);
 		this.pluginManager.registerEvents(new LockableOpenListener(this), this);
 		this.pluginManager.registerEvents(new LockableBreakListener(this), this);
