@@ -30,6 +30,7 @@ public class GroupLock extends BasePlugin {
 		this.lockableContainers = Arrays.asList(
 			Material.CHEST,
 			Material.FURNACE,
+			Material.BURNING_FURNACE,
 			Material.DISPENSER
 		);
 		

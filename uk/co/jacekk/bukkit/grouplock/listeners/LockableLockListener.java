@@ -27,7 +27,7 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (event.getAction() == Action.LEFT_CLICK_BLOCK && Permission.LOCK.hasPermission(player) && plugin.lockableContainers.contains(type)){
+		if (player.getItemInHand().getType() == Material.STICK && event.getAction() == Action.LEFT_CLICK_BLOCK && Permission.LOCK.hasPermission(player) && plugin.lockableContainers.contains(type)){
 			String blockName = type.name().toLowerCase();
 			String ucfBlockName = Character.toUpperCase(type.name().charAt(0)) + blockName.substring(1);
 			
