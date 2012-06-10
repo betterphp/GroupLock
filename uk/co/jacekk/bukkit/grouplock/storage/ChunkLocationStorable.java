@@ -21,7 +21,7 @@ public class ChunkLocationStorable implements Serializable {
 	}
 	
 	public boolean equals(ChunkLocationStorable location){
-		return (this.worldUUID == location.worldUUID && this.x == location.x && this.z == location.z);
+		return (this.worldUUID.equals(location.worldUUID) && this.x.equals(location.x) && this.z.equals(location.z));
 	}
 	
 	public UUID getWorldUUID(){

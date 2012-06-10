@@ -16,6 +16,7 @@ public class LockedBlockStorable implements Serializable {
 	
 	private UUID worldUUID;
 	private Integer x, y, z;
+	
 	private String owner;
 	private ArrayList<String> allowed;
 	
@@ -31,11 +32,11 @@ public class LockedBlockStorable implements Serializable {
 	}
 	
 	public boolean equals(LockedBlockStorable location){
-		return (this.worldUUID == location.worldUUID && this.x == location.x && this.y == location.y && this.z == location.z);
+		return (this.worldUUID.equals(location.worldUUID) && this.x.equals(location.x) && this.y.equals(location.y) && this.z.equals(location.z));
 	}
 	
 	public boolean equals(Location location){
-		return (this.worldUUID == location.getWorld().getUID() && this.x == location.getBlockX() && this.y == location.getBlockY() && this.z == location.getBlockZ());
+		return (this.worldUUID.equals(location.getWorld().getUID()) && this.x.equals(location.getBlockX()) && this.y.equals(location.getBlockY()) && this.z.equals(location.getBlockZ()));
 	}
 	
 	public Block getBlock(){

@@ -29,6 +29,8 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 			return true;
 		}
 		
+		//TODO: Fix blocks not being removed.
+		
 		Player player = (Player) sender;
 		String playerName = player.getName();
 		Block block = player.getTargetBlock(null, 20);
