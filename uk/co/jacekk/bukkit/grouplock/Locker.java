@@ -2,7 +2,9 @@ package uk.co.jacekk.bukkit.grouplock;
 
 import java.util.ArrayList;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
@@ -14,7 +16,23 @@ public class Locker {
 		this.plugin = plugin;
 	}
 	
+	private static Block getDataBlock(Block block){
+		Material type = block.getType();
+		
+		if (type == Material.WOODEN_DOOR || type == Material.IRON_DOOR){
+			Block below = block.getRelative(BlockFace.DOWN);
+			
+			if (below.getType() == type){
+				return below;
+			}
+		}
+		
+		return block;
+	}
+	
 	public void lock(Block block, String playerName){
+		block = Locker.getDataBlock(block);
+		
 		block.setMetadata("owner", new FixedMetadataValue(plugin, playerName));
 		block.setMetadata("allowed", new FixedMetadataValue(plugin, new ArrayList<String>()));
 		
@@ -22,6 +40,8 @@ public class Locker {
 	}
 	
 	public void unlock(Block block){
+		block = Locker.getDataBlock(block);
+		
 		block.removeMetadata("owner", plugin);
 		block.removeMetadata("allowed", plugin);
 		
@@ -29,6 +49,8 @@ public class Locker {
 	}
 	
 	public static String getOwner(Block block){
+		block = Locker.getDataBlock(block);
+		
 		for (MetadataValue meta : block.getMetadata("owner")){
 			if (meta.getOwningPlugin() instanceof GroupLock){
 				return (String) meta.value();
@@ -40,6 +62,8 @@ public class Locker {
 	
 	@SuppressWarnings("unchecked")
 	public static ArrayList<String> getAllowedPlayers(Block block){
+		block = Locker.getDataBlock(block);
+		
 		for (MetadataValue meta : block.getMetadata("allowed")){
 			if (meta.getOwningPlugin() instanceof GroupLock){
 				return (ArrayList<String>) meta.value();
@@ -51,6 +75,8 @@ public class Locker {
 	
 	@SuppressWarnings("unchecked")
 	public void addAllowedPlayers(Block block, String playerName){
+		block = Locker.getDataBlock(block);
+		
 		for (MetadataValue meta : block.getMetadata("allowed")){
 			if (meta.getOwningPlugin() instanceof GroupLock){
 				((ArrayList<String>) meta.value()).add(playerName);
@@ -60,6 +86,8 @@ public class Locker {
 	
 	@SuppressWarnings("unchecked")
 	public void removeAllowedPlayers(Block block, String playerName){
+		block = Locker.getDataBlock(block);
+		
 		for (MetadataValue meta : block.getMetadata("allowed")){
 			if (meta.getOwningPlugin() instanceof GroupLock){
 				((ArrayList<String>) meta.value()).remove(playerName);
@@ -68,10 +96,14 @@ public class Locker {
 	}
 	
 	public boolean isBlockLocked(Block block){
+		block = Locker.getDataBlock(block);
+		
 		return (block.hasMetadata("owner") && block.hasMetadata("allowed"));
 	}
 	
 	public boolean playerCanAccess(Block block, String playerName){
+		block = Locker.getDataBlock(block);
+		
 		if (!this.isBlockLocked(block)){
 			return true;
 		}

@@ -16,7 +16,7 @@ import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStore;
 
 public class GroupLock extends BasePlugin {
 	
-	public List<Material> lockableContainers;
+	public List<Material> lockableBlocks;
 	public LockedBlockStore lockedBlocks;
 	
 	public Locker locker;
@@ -24,11 +24,17 @@ public class GroupLock extends BasePlugin {
 	public void onEnable(){
 		super.onEnable(true);
 		
-		this.lockableContainers = Arrays.asList(
+		this.lockableBlocks = Arrays.asList(
 			Material.CHEST,
 			Material.FURNACE,
 			Material.BURNING_FURNACE,
-			Material.DISPENSER
+			Material.DISPENSER,
+			Material.TRAP_DOOR,
+			Material.WOOD_DOOR,		// Are these the
+			Material.WOODEN_DOOR,	// the same thing :s
+			Material.IRON_DOOR,
+			Material.STONE_BUTTON,
+			Material.LEVER
 		);
 		
 		this.lockedBlocks = new LockedBlockStore(new File(this.baseDirPath + File.separator + "locked-blocks.bin"));

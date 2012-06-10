@@ -24,7 +24,7 @@ public class LockablePlaceListener extends BaseListener<GroupLock> {
 		Material type = block.getType();
 		Player player = event.getPlayer();
 		
-		if (Permission.LOCK.hasPermission(player) && plugin.lockableContainers.contains(type)){
+		if (Permission.LOCK.hasPermission(player) && plugin.lockableBlocks.contains(type)){
 			String blockName = type.name().toLowerCase().replace('_', ' ');
 			
 			plugin.locker.lock(block, player.getName());

@@ -39,7 +39,7 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 		String blockName = type.name().toLowerCase().replace('_', ' ');
 		String ucfBlockName = Character.toUpperCase(blockName.charAt(0)) + blockName.substring(1);
 		
-		if (!plugin.lockableContainers.contains(block.getType())){
+		if (!plugin.lockableBlocks.contains(block.getType())){
 			player.sendMessage(plugin.formatMessage(ChatColor.RED + ucfBlockName + " is not a lockable block"));
 			return true;
 		}

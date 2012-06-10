@@ -25,7 +25,7 @@ public class LockableBreakListener extends BaseListener<GroupLock> {
 		Material type = block.getType();
 		Player player = event.getPlayer();
 		
-		if (plugin.lockableContainers.contains(type) && plugin.locker.isBlockLocked(block)){
+		if (plugin.lockableBlocks.contains(type) && plugin.locker.isBlockLocked(block)){
 			String blockName = type.name().toLowerCase().replace('_', ' ');
 			
 			if (!Locker.getOwner(block).equals(player.getName())){
