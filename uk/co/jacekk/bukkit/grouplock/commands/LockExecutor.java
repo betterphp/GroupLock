@@ -50,8 +50,19 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 			if (!Permission.UNLOCK_LOCKED.hasPermission(player) && !owner.equals(playerName)){
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + owner));
 			}else{
-				plugin.locker.unlock(block);
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
+				if (args.length == 2){
+					if (args[0].equalsIgnoreCase("add")){
+						plugin.locker.addAllowedPlayers(block, args[1]);
+						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been added to the access list"));
+					}else{
+						plugin.locker.removeAllowedPlayers(block, args[1]);
+						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
+						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been removed from the access list"));
+					}
+				}else{
+					plugin.locker.unlock(block);
+					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
+				}
 			}
 		}
 		

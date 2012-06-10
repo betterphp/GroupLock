@@ -3,5 +3,5 @@ version: 0.1
 main: uk.co.jacekk.bukkit.grouplock.GroupLock
 commands:
     lock:
-        usage: /<command>
+        usage: /<command> [<add/remove> <player_name>]
         description: Lock or unlock a block

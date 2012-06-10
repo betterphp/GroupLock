@@ -58,6 +58,15 @@ public class Locker {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void removeAllowedPlayers(Block block, String playerName){
+		for (MetadataValue meta : block.getMetadata("allowed")){
+			if (meta.getOwningPlugin() instanceof GroupLock){
+				((ArrayList<String>) meta.value()).remove(playerName);
+			}
+		}
+	}
+	
 	public boolean isBlockLocked(Block block){
 		return (block.hasMetadata("owner") && block.hasMetadata("allowed"));
 	}
