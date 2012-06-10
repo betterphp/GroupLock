@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
+import uk.co.jacekk.bukkit.grouplock.Permission;
 
 public class LockableOpenListener extends BaseListener<GroupLock> {
 	
@@ -26,7 +27,7 @@ public class LockableOpenListener extends BaseListener<GroupLock> {
 		String playerName = player.getName();
 		
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && plugin.lockableContainers.contains(type) && plugin.locker.isBlockLocked(block)){
-			if (!plugin.locker.playerCanAccess(block, playerName)){
+			if (!Permission.OPEN_LOCKED.hasPermission(player) && !plugin.locker.playerCanAccess(block, playerName)){
 				event.setCancelled(true);
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + type.name().toLowerCase() + " is locked"));
 			}else{

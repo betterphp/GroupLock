@@ -10,6 +10,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
+import uk.co.jacekk.bukkit.grouplock.Permission;
 
 public class LockablePlaceListener extends BaseListener<GroupLock> {
 	
@@ -23,7 +24,7 @@ public class LockablePlaceListener extends BaseListener<GroupLock> {
 		Material type = block.getType();
 		Player player = event.getPlayer();
 		
-		if (plugin.lockableContainers.contains(type)){
+		if (Permission.LOCK.hasPermission(player) && plugin.lockableContainers.contains(type)){
 			plugin.locker.lock(block, player.getName());
 			
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + type.name().toLowerCase() + " created"));

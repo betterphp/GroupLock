@@ -55,6 +55,10 @@ public class GroupLock extends BasePlugin {
 		this.pluginManager.registerEvents(new LockableBreakListener(this), this);
 		
 		this.getCommand("lock").setExecutor(new LockExecutor(this));
+		
+		for (Permission permission : Permission.values()){
+			this.pluginManager.addPermission(new org.bukkit.permissions.Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
+		}
 	}
 	
 	public void onDisable(){

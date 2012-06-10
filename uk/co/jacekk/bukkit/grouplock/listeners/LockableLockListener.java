@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
+import uk.co.jacekk.bukkit.grouplock.Permission;
 
 public class LockableLockListener extends BaseListener<GroupLock> {
 	
@@ -25,21 +26,21 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (event.getAction() == Action.LEFT_CLICK_BLOCK && plugin.lockableContainers.contains(type)){
-			String blockName = Character.toUpperCase(type.name().charAt(0)) + type.name().substring(1).toLowerCase();
+		if (event.getAction() == Action.LEFT_CLICK_BLOCK && Permission.LOCK.hasPermission(player) && plugin.lockableContainers.contains(type)){
+			String blockName = type.name().toLowerCase();
+			String ucfBlockName = Character.toUpperCase(type.name().charAt(0)) + blockName.substring(1);
 			
 			if (!plugin.locker.isBlockLocked(block)){
 				plugin.locker.lock(block, playerName);
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + blockName + " locked"));
+				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " locked"));
 			}else{
 				String owner = plugin.locker.getOwner(block);
 				
-				if (!owner.equals(playerName)){
-					player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + type.name().toLowerCase() + " is locked by " + owner));
+				if (!Permission.UNLOCK_LOCKED.hasPermission(player) && !owner.equals(playerName)){
+					player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + owner));
 				}else{
 					plugin.locker.unlock(block);
-					
-					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + blockName + " unlocked"));
+					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
 				}
 			}
 		}
