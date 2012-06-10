@@ -38,8 +38,6 @@ public class GroupLock extends BasePlugin {
 		
 		this.scheduler.scheduleSyncDelayedTask(this, new SetBlockMetadataTask(this), 10L);
 		
-		this.scheduler.scheduleSyncRepeatingTask(this, new TestTask(this), 20L, 20L);
-		
 		this.pluginManager.registerEvents(new LockableLockListener(this), this);
 		this.pluginManager.registerEvents(new LockablePlaceListener(this), this);
 		this.pluginManager.registerEvents(new LockableOpenListener(this), this);
