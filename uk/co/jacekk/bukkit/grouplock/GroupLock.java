@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
+import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableBreakListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableOpenListener;
@@ -40,14 +41,20 @@ public class GroupLock extends BasePlugin {
 		for (LockedBlockStorable storedBlock : this.lockedBlocks.getAll()){
 			Block block = storedBlock.getBlock();
 			
-			block.setMetadata("owner", new FixedMetadataValue(this, storedBlock.getOwner()));
-			block.setMetadata("allowed", new FixedMetadataValue(this, storedBlock.getAllowed()));
+			if (!this.lockableContainers.contains(block.getType())){
+				this.lockedBlocks.remove(block);
+			}else{
+				block.setMetadata("owner", new FixedMetadataValue(this, storedBlock.getOwner()));
+				block.setMetadata("allowed", new FixedMetadataValue(this, storedBlock.getAllowed()));
+			}
 		}
 		
 		this.pluginManager.registerEvents(new LockableLockListener(this), this);
 		this.pluginManager.registerEvents(new LockablePlaceListener(this), this);
 		this.pluginManager.registerEvents(new LockableOpenListener(this), this);
 		this.pluginManager.registerEvents(new LockableBreakListener(this), this);
+		
+		this.getCommand("lock").setExecutor(new LockExecutor(this));
 	}
 	
 	public void onDisable(){

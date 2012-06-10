@@ -1,3 +1,7 @@
 name: GroupLock
 version: 0.1
 main: uk.co.jacekk.bukkit.grouplock.GroupLock
+commands:
+    lock:
+        usage: /<command>
+        description: Lock or unlock a block

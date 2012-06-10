@@ -25,7 +25,7 @@ public class LockableOpenListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && plugin.lockableContainers.contains(type) && block.hasMetadata("owner")){
+		if (event.getAction() == Action.RIGHT_CLICK_BLOCK && plugin.lockableContainers.contains(type) && plugin.locker.isBlockLocked(block)){
 			if (!plugin.locker.playerCanAccess(block, playerName)){
 				event.setCancelled(true);
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + type.name().toLowerCase() + " is locked"));
