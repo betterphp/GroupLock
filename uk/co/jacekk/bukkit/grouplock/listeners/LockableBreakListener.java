@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
@@ -32,6 +33,16 @@ public class LockableBreakListener extends BaseListener<GroupLock> {
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked"));
 			}else{
 				plugin.locker.unlock(block);
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+	public void onEntityExplode(EntityExplodeEvent event){
+		for (Block block : event.blockList()){
+			if (plugin.locker.isBlockLocked(block)){
+				event.setCancelled(true);
+				return;
 			}
 		}
 	}
