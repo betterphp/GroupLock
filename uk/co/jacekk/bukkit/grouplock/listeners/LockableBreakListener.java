@@ -25,9 +25,11 @@ public class LockableBreakListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		
 		if (plugin.lockableContainers.contains(type) && plugin.locker.isBlockLocked(block)){
+			String blockName = type.name().toLowerCase().replace('_', ' ');
+			
 			if (!Locker.getOwner(block).equals(player.getName())){
 				event.setCancelled(true);
-				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + type.name().toLowerCase() + " is locked"));
+				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked"));
 			}else{
 				plugin.locker.unlock(block);
 			}

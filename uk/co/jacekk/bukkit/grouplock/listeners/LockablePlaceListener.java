@@ -25,9 +25,11 @@ public class LockablePlaceListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		
 		if (Permission.LOCK.hasPermission(player) && plugin.lockableContainers.contains(type)){
+			String blockName = type.name().toLowerCase().replace('_', ' ');
+			
 			plugin.locker.lock(block, player.getName());
 			
-			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + type.name().toLowerCase() + " created"));
+			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + blockName + " created"));
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "To unlock it use /lock while looking at it"));
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "alternativly, you can hit it with a stick"));
 		}
