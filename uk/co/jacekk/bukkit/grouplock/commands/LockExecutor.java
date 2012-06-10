@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
+import uk.co.jacekk.bukkit.grouplock.Locker;
 import uk.co.jacekk.bukkit.grouplock.Permission;
 
 public class LockExecutor extends BaseCommandExecutor<GroupLock> {
@@ -45,7 +46,7 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 			plugin.locker.lock(block, playerName);
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " locked"));
 		}else{
-			String owner = plugin.locker.getOwner(block);
+			String owner = Locker.getOwner(block);
 			
 			if (!Permission.UNLOCK_LOCKED.hasPermission(player) && !owner.equals(playerName)){
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + owner));

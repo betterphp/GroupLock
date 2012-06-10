@@ -28,7 +28,7 @@ public class Locker {
 		plugin.lockedBlocks.remove(block);
 	}
 	
-	public String getOwner(Block block){
+	public static String getOwner(Block block){
 		for (MetadataValue meta : block.getMetadata("owner")){
 			if (meta.getOwningPlugin() instanceof GroupLock){
 				return (String) meta.value();
@@ -39,7 +39,7 @@ public class Locker {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<String> getAllowedPlayers(Block block){
+	public static ArrayList<String> getAllowedPlayers(Block block){
 		for (MetadataValue meta : block.getMetadata("allowed")){
 			if (meta.getOwningPlugin() instanceof GroupLock){
 				return (ArrayList<String>) meta.value();
@@ -76,7 +76,7 @@ public class Locker {
 			return true;
 		}
 		
-		return (this.getOwner(block).equals(playerName) || this.getAllowedPlayers(block).contains(playerName));
+		return (Locker.getOwner(block).equals(playerName) || Locker.getAllowedPlayers(block).contains(playerName));
 	}
 	
 }

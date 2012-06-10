@@ -10,6 +10,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
+import uk.co.jacekk.bukkit.grouplock.Locker;
 
 public class LockableBreakListener extends BaseListener<GroupLock> {
 	
@@ -24,7 +25,7 @@ public class LockableBreakListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		
 		if (plugin.lockableContainers.contains(type) && plugin.locker.isBlockLocked(block)){
-			if (!plugin.locker.getOwner(block).equals(player.getName())){
+			if (!Locker.getOwner(block).equals(player.getName())){
 				event.setCancelled(true);
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + type.name().toLowerCase() + " is locked"));
 			}else{
