@@ -24,6 +24,8 @@ public class SimpleChestLockImportTask extends BaseTask<GroupLock> {
 		if (chestFile.exists()){
 			plugin.log.info("Importing locks from " + chestFile.getAbsolutePath());
 			
+			int total = 0;
+			
 			try{
 				BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(chestFile)));
 				String line;
@@ -47,6 +49,10 @@ public class SimpleChestLockImportTask extends BaseTask<GroupLock> {
 							plugin.locker.lock(block, playerName);
 						}
 					}
+					
+					if (++total % 200 == 0){
+						plugin.log.info("Processed " + total + " lines");
+					}
 				}
 				
 				reader.close();
@@ -56,7 +62,7 @@ public class SimpleChestLockImportTask extends BaseTask<GroupLock> {
 				e.printStackTrace();
 			}
 			
-			plugin.log.info("Done. " + plugin.lockedBlocks.size(true) + " blocks have been imported, you should now delete the SimpleChestLock folder");
+			plugin.log.info("Done.");
 		}
 	}
 	
