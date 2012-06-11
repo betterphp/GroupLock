@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import uk.co.jacekk.bukkit.grouplock.Locker;
@@ -40,7 +41,13 @@ public class LockedBlockStorable implements Serializable {
 	}
 	
 	public Block getBlock(){
-		return Bukkit.getWorld(this.worldUUID).getBlockAt(this.x, this.y, this.z);
+		World world = Bukkit.getWorld(this.worldUUID);
+		
+		if (world == null){
+			return null;
+		}
+		
+		return world.getBlockAt(this.x, this.y, this.z);
 	}
 	
 	public String getOwner(){
