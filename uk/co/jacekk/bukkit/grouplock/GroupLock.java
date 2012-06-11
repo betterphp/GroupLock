@@ -29,11 +29,17 @@ public class GroupLock extends BasePlugin {
 			Material.FURNACE,
 			Material.BURNING_FURNACE,
 			Material.DISPENSER,
+			Material.BREWING_STAND,
+			Material.ENCHANTMENT_TABLE,
+			Material.JUKEBOX,
 			Material.TRAP_DOOR,
+			Material.FENCE_GATE,
 			Material.WOOD_DOOR,		// Are these the
 			Material.WOODEN_DOOR,	// the same thing :s
 			Material.IRON_DOOR,
 			Material.STONE_BUTTON,
+			Material.STONE_PLATE,
+			Material.WOOD_PLATE,
 			Material.LEVER
 		);
 		

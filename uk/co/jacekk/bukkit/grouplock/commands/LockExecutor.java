@@ -55,10 +55,10 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 			}else{
 				if (args.length == 2){
 					if (args[0].equalsIgnoreCase("add")){
-						plugin.locker.addAllowedPlayers(block, args[1]);
+						plugin.locker.addAllowedPlayer(block, args[1]);
 						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been added to the access list"));
 					}else{
-						plugin.locker.removeAllowedPlayers(block, args[1]);
+						plugin.locker.removeAllowedPlayer(block, args[1]);
 						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
 						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been removed from the access list"));
 					}

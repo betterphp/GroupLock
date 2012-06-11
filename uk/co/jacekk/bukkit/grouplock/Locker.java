@@ -25,6 +25,15 @@ public class Locker {
 			if (below.getType() == type){
 				return below;
 			}
+		}else if (type == Material.CHEST){
+			Block north = block.getRelative(BlockFace.NORTH);
+			Block east = block.getRelative(BlockFace.EAST);
+			
+			if (north.getType() == type){
+				return north;
+			}else if (east.getType() == type){
+				return east;
+			}
 		}
 		
 		return block;
@@ -33,19 +42,21 @@ public class Locker {
 	public void lock(Block block, String playerName){
 		block = Locker.getDataBlock(block);
 		
-		block.setMetadata("owner", new FixedMetadataValue(plugin, playerName));
-		block.setMetadata("allowed", new FixedMetadataValue(plugin, new ArrayList<String>()));
-		
-		plugin.lockedBlocks.add(block);
+		if (!this.isBlockLocked(block)){
+			block.setMetadata("owner", new FixedMetadataValue(plugin, playerName));
+			block.setMetadata("allowed", new FixedMetadataValue(plugin, new ArrayList<String>()));
+			
+			plugin.lockedBlocks.add(block);
+		}
 	}
 	
 	public void unlock(Block block){
 		block = Locker.getDataBlock(block);
 		
-		block.removeMetadata("owner", plugin);
-		block.removeMetadata("allowed", plugin);
-		
-		plugin.lockedBlocks.remove(block);
+		if (this.isBlockLocked(block)){
+			block.removeMetadata("owner", plugin);
+			block.removeMetadata("allowed", plugin);
+		}
 	}
 	
 	public static String getOwner(Block block){
@@ -74,7 +85,7 @@ public class Locker {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void addAllowedPlayers(Block block, String playerName){
+	public void addAllowedPlayer(Block block, String playerName){
 		block = Locker.getDataBlock(block);
 		
 		for (MetadataValue meta : block.getMetadata("allowed")){
@@ -85,7 +96,7 @@ public class Locker {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void removeAllowedPlayers(Block block, String playerName){
+	public void removeAllowedPlayer(Block block, String playerName){
 		block = Locker.getDataBlock(block);
 		
 		for (MetadataValue meta : block.getMetadata("allowed")){
