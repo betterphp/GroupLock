@@ -1,10 +1,17 @@
 package uk.co.jacekk.bukkit.grouplock;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
@@ -59,6 +66,46 @@ public class GroupLock extends BasePlugin {
 		
 		for (Permission permission : Permission.values()){
 			this.pluginManager.addPermission(new org.bukkit.permissions.Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
+		}
+		
+		File chestFile = new File(this.baseDir.getParentFile().getAbsolutePath() + File.separator + "SimpleChestLock" + File.separator + "Chests.txt");
+		
+		if (chestFile.exists()){
+			this.log.info("Importing locks from " + chestFile.getAbsolutePath());
+			
+			try{
+				BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(chestFile)));
+				String line;
+				
+				while ((line = reader.readLine()) != null){
+					String[] parts = line.trim().split(",");
+					
+					String playerName = parts[0];
+					String worldName = parts[1];
+					
+					int x = Integer.parseInt(parts[2]);
+					int y = Integer.parseInt(parts[3]);
+					int z = Integer.parseInt(parts[4]);
+					
+					World world = this.server.getWorld(worldName);
+					
+					if (world != null){
+						Block block = world.getBlockAt(x, y, z);
+						
+						if (this.lockableBlocks.contains(block.getType())){
+							this.locker.lock(block, playerName);
+						}
+					}
+					
+					System.out.println(Arrays.asList(parts).toString());
+				}
+				
+				reader.close();
+			}catch (FileNotFoundException e){
+				// ummm we checked .exists()
+			}catch (IOException e){
+				e.printStackTrace();
+			}
 		}
 	}
 	
