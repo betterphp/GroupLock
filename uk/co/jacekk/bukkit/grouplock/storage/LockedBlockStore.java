@@ -58,6 +58,8 @@ public class LockedBlockStore {
 			stream.writeObject(this.blocks);
 			stream.flush();
 			stream.close();
+			
+			this.lastSave = System.currentTimeMillis();
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -96,9 +98,7 @@ public class LockedBlockStore {
 		
 		this.blocks.put(chunkLocation, new ArrayList<LockedBlockStorable>(Arrays.asList(blockLocation)));
 		
-		long timeNow = System.currentTimeMillis();
-		
-		if (timeNow - this.lastSave > 60000){ // 60 seconds
+		if (System.currentTimeMillis() - this.lastSave > 60000L){ // 60 seconds
 			this.save();
 		}
 	}
