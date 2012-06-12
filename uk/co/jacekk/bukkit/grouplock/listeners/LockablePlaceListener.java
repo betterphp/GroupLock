@@ -1,6 +1,7 @@
 package uk.co.jacekk.bukkit.grouplock.listeners;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -24,7 +25,7 @@ public class LockablePlaceListener extends BaseListener<GroupLock> {
 		Material type = block.getType();
 		Player player = event.getPlayer();
 		
-		if (Permission.LOCK.hasPermission(player) && plugin.lockableBlocks.contains(type)){
+		if (player.getGameMode() == GameMode.SURVIVAL && Permission.LOCK.hasPermission(player) && plugin.lockableBlocks.contains(type)){
 			String blockName = type.name().toLowerCase().replace('_', ' ');
 			
 			plugin.locker.lock(block, player.getName());
