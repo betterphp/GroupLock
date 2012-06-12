@@ -44,6 +44,8 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
 				}
 			}
+			
+			event.setCancelled(true);
 		}
 	}
 	
