@@ -1,8 +1,7 @@
 package uk.co.jacekk.bukkit.grouplock;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
 import org.bukkit.Material;
 
@@ -16,7 +15,11 @@ import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStore;
 
 public class GroupLock extends BasePlugin {
 	
-	public List<Material> lockableBlocks;
+	public ArrayList<Material> lockableDoorBlocks;
+	public ArrayList<Material> lockableStorageBlocks;
+	
+	public ArrayList<Material> lockableBlocks;
+	
 	public LockedBlockStore lockedBlocks;
 	
 	public Locker locker;
@@ -24,24 +27,30 @@ public class GroupLock extends BasePlugin {
 	public void onEnable(){
 		super.onEnable(true);
 		
-		this.lockableBlocks = Arrays.asList(
-			Material.CHEST,
-			Material.FURNACE,
-			Material.BURNING_FURNACE,
-			Material.DISPENSER,
-			Material.BREWING_STAND,
-			Material.ENCHANTMENT_TABLE,
-			Material.JUKEBOX,
-			Material.TRAP_DOOR,
-			Material.FENCE_GATE,
-			Material.WOOD_DOOR,		// Are these the
-			Material.WOODEN_DOOR,	// the same thing :s
-			Material.IRON_DOOR,
-			Material.STONE_BUTTON,
-			Material.STONE_PLATE,
-			Material.WOOD_PLATE,
-			Material.LEVER
-		);
+		this.lockableDoorBlocks = new ArrayList<Material>();
+		this.lockableStorageBlocks = new ArrayList<Material>();
+		this.lockableBlocks = new ArrayList<Material>();
+		
+		this.lockableDoorBlocks.add(Material.TRAP_DOOR);
+		this.lockableDoorBlocks.add(Material.FENCE_GATE);
+		this.lockableDoorBlocks.add(Material.WOOD_DOOR);	// Are these the
+		this.lockableDoorBlocks.add(Material.WOODEN_DOOR);	// the same thing :s
+		this.lockableDoorBlocks.add(Material.IRON_DOOR);
+		
+		this.lockableStorageBlocks.add(Material.CHEST);
+		this.lockableStorageBlocks.add(Material.FURNACE);
+		this.lockableStorageBlocks.add(Material.BURNING_FURNACE);
+		this.lockableStorageBlocks.add(Material.DISPENSER);
+		this.lockableStorageBlocks.add(Material.BREWING_STAND);
+		this.lockableStorageBlocks.add(Material.ENCHANTMENT_TABLE);
+		this.lockableStorageBlocks.add(Material.JUKEBOX);
+		this.lockableStorageBlocks.add(Material.STONE_BUTTON);
+		this.lockableStorageBlocks.add(Material.STONE_PLATE);
+		this.lockableStorageBlocks.add(Material.WOOD_PLATE);
+		this.lockableStorageBlocks.add(Material.LEVER);
+		
+		this.lockableBlocks.addAll(this.lockableDoorBlocks);
+		this.lockableBlocks.addAll(this.lockableStorageBlocks);
 		
 		this.lockedBlocks = new LockedBlockStore(new File(this.baseDirPath + File.separator + "locked-blocks.bin"));
 		this.lockedBlocks.load();

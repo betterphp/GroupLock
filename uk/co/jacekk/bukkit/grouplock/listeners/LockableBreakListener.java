@@ -49,9 +49,11 @@ public class LockableBreakListener extends BaseListener<GroupLock> {
 				for (int dx = -1; dx <= 1; ++dx){
 					for (int dy = -2; dy <= 2; ++dy){
 						for (int dz = -1; dz <= 1; ++dz){
-							if (!plugin.locker.playerCanAccess(world.getBlockAt(x + dx, y + dy, z + dz), playerName)){
+							Block locked = world.getBlockAt(x + dx, y + dy, z + dz);
+							
+							if (plugin.lockableDoorBlocks.contains(locked.getType()) && !plugin.locker.playerCanAccess(locked, playerName)){
 								event.setCancelled(true);
-								player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot break blocks this close to a locked block"));
+								player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot break blocks this close to a locked door"));
 								return;
 							}
 						}

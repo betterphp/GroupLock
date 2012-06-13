@@ -12,7 +12,7 @@ public enum Permission {
 	
 	LOCK(			"grouplock.lock",				PermissionDefault.TRUE,		"Allows the player to lock/unlock blocks"),
 	OPEN_LOCKED(	"grouplock.lock.openall",		PermissionDefault.OP,		"Allows the player to open all locked blocks"),
-	UNLOCK_LOCKED(	"grouplock.lock.unlockll",		PermissionDefault.OP,		"Allows the player to unlock all locked blocks");
+	UNLOCK_LOCKED(	"grouplock.lock.unlockall",		PermissionDefault.OP,		"Allows the player to unlock all locked blocks");
 	
 	protected String node;
 	protected PermissionDefault defaultValue;
