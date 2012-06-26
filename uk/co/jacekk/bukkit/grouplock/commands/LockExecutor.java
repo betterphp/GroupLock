@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Locker;
 import uk.co.jacekk.bukkit.grouplock.Permission;
@@ -35,6 +36,11 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 		String playerName = player.getName();
 		Block block = player.getTargetBlock(null, 20);
 		Material type = block.getType();
+		
+		if (!plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot lock blocks in this world"));
+			return true;
+		}
 		
 		String blockName = type.name().toLowerCase().replace('_', ' ');
 		String ucfBlockName = Character.toUpperCase(blockName.charAt(0)) + blockName.substring(1);

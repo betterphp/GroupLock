@@ -35,8 +35,6 @@ public class LockableOpenListener extends BaseListener<GroupLock> {
 			if (!Permission.OPEN_LOCKED.hasPermission(player) && !plugin.locker.playerCanAccess(block, playerName)){
 				event.setCancelled(true);
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + owner));
-			}else{
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Access granted"));
 			}
 		}
 	}

@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
+import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Permission;
 
@@ -25,7 +26,7 @@ public class LockablePlaceListener extends BaseListener<GroupLock> {
 		Material type = block.getType();
 		Player player = event.getPlayer();
 		
-		if (player.getGameMode() == GameMode.SURVIVAL && Permission.LOCK.hasPermission(player) && plugin.lockableBlocks.contains(type)){
+		if (player.getGameMode() == GameMode.SURVIVAL && Permission.LOCK.hasPermission(player) && plugin.lockableBlocks.contains(type) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
 			String blockName = type.name().toLowerCase().replace('_', ' ');
 			
 			plugin.locker.lock(block, player.getName());
