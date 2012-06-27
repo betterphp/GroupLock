@@ -37,7 +37,7 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 		Block block = player.getTargetBlock(null, 20);
 		Material type = block.getType();
 		
-		if (!plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
+		if (plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
 			player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot lock blocks in this world"));
 			return true;
 		}
