@@ -56,7 +56,7 @@ public class LockableOpenListener extends BaseListener<GroupLock> {
 				for (int dz = -1; dz <= 1; ++dz){
 					Block locked = world.getBlockAt(x + dx, y + dy, z + dz);
 					
-					if (plugin.lockableDoorBlocks.contains(locked.getType()) && !plugin.locker.playerCanAccess(locked, playerName)){
+					if (plugin.lockableBlocks.contains(locked.getType()) && !plugin.locker.playerCanAccess(locked, playerName)){
 						event.setCancelled(true);
 						player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot place blocks this close to a locked door"));
 						return;
