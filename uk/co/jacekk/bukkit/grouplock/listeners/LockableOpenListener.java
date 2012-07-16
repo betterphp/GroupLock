@@ -13,7 +13,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import uk.co.jacekk.bukkit.baseplugin.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Locker;
-import uk.co.jacekk.bukkit.grouplock.Permission;
 
 public class LockableOpenListener extends BaseListener<GroupLock> {
 	
@@ -26,13 +25,12 @@ public class LockableOpenListener extends BaseListener<GroupLock> {
 		Block block = event.getClickedBlock();
 		Material type = block.getType();
 		Player player = event.getPlayer();
-		String playerName = player.getName();
 		
 		if (plugin.lockableBlocks.contains(type) && plugin.locker.isBlockLocked(block)){
 			String blockName = type.name().toLowerCase().replace('_', ' ');
 			String owner = Locker.getOwner(block);
 			
-			if (!Permission.OPEN_LOCKED.hasPermission(player) && !plugin.locker.playerCanAccess(block, playerName)){
+			if (!plugin.locker.playerCanAccess(block, player)){
 				event.setCancelled(true);
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + owner));
 			}
@@ -42,7 +40,6 @@ public class LockableOpenListener extends BaseListener<GroupLock> {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent event){
 		Player player = event.getPlayer();
-		String playerName = player.getName();
 		
 		Block block = event.getBlock();
 		World world = block.getWorld();
@@ -56,7 +53,7 @@ public class LockableOpenListener extends BaseListener<GroupLock> {
 				for (int dz = -1; dz <= 1; ++dz){
 					Block locked = world.getBlockAt(x + dx, y + dy, z + dz);
 					
-					if (plugin.lockableBlocks.contains(locked.getType()) && !plugin.locker.playerCanAccess(locked, playerName)){
+					if (plugin.lockableBlocks.contains(locked.getType()) && !plugin.locker.playerCanAccess(locked, player)){
 						event.setCancelled(true);
 						player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot place blocks this close to a locked door"));
 						return;

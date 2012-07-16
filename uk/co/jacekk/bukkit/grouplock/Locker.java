@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
@@ -112,10 +113,11 @@ public class Locker {
 		return (block.hasMetadata("owner") && block.hasMetadata("allowed"));
 	}
 	
-	public boolean playerCanAccess(Block block, String playerName){
+	public boolean playerCanAccess(Block block, Player player){
+		String playerName = player.getName();
 		block = Locker.getDataBlock(block);
 		
-		if (!this.isBlockLocked(block)){
+		if (!this.isBlockLocked(block) || Permission.OPEN_LOCKED.hasPermission(player)){
 			return true;
 		}
 		
