@@ -3,11 +3,11 @@ package uk.co.jacekk.bukkit.grouplock.commands;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.baseplugin.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.v4.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.v4.command.CommandHandler;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Locker;
@@ -19,13 +19,14 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 		super(plugin);
 	}
 	
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+	@CommandHandler(names = {"lock"}, description = "Lock or unlock a block", usage = "[<add/remove> <player_name>]")
+	public boolean lock(CommandSender sender, String label, String[] args){
 		if (!(sender instanceof Player)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "The /lock command can only be used in game"));
 			return true;
 		}
 		
-		if (!Permission.LOCK.hasPermission(sender)){
+		if (!Permission.LOCK.has(sender)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "You do not have permission to use this command"));
 			return true;
 		}
@@ -56,7 +57,7 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 		}else{
 			String owner = Locker.getOwner(block);
 			
-			if (!Permission.UNLOCK_LOCKED.hasPermission(player) && !owner.equals(playerName)){
+			if (!Permission.UNLOCK_LOCKED.has(player) && !owner.equals(playerName)){
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + owner));
 			}else{
 				if (args.length == 2){

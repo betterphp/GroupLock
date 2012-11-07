@@ -3,7 +3,7 @@ package uk.co.jacekk.bukkit.grouplock;
 import org.bukkit.block.Block;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import uk.co.jacekk.bukkit.baseplugin.BaseTask;
+import uk.co.jacekk.bukkit.baseplugin.v4.scheduler.BaseTask;
 import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStorable;
 
 public class SetBlockMetadataTask extends BaseTask<GroupLock> {

@@ -117,7 +117,7 @@ public class Locker {
 		String playerName = player.getName();
 		block = Locker.getDataBlock(block);
 		
-		if (!this.isBlockLocked(block) || Permission.OPEN_LOCKED.hasPermission(player)){
+		if (!this.isBlockLocked(block) || Permission.OPEN_LOCKED.has(player)){
 			return true;
 		}
 		

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import org.bukkit.Material;
 
-import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v4.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.v4.config.PluginConfig;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableBreakListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
@@ -68,11 +68,9 @@ public class GroupLock extends BasePlugin {
 		this.pluginManager.registerEvents(new LockableOpenListener(this), this);
 		this.pluginManager.registerEvents(new LockableBreakListener(this), this);
 		
-		this.getCommand("lock").setExecutor(new LockExecutor(this));
+		this.commandManager.registerCommandExecutor(new LockExecutor(this));
 		
-		for (Permission permission : Permission.values()){
-			this.pluginManager.addPermission(new org.bukkit.permissions.Permission(permission.getNode(), permission.getDescription(), permission.getDefault()));
-		}
+		this.permissionManager.registerPermissions(Permission.values());
 	}
 	
 	public void onDisable(){

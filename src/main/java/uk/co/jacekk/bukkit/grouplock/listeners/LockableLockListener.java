@@ -9,7 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.v4.event.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Locker;
@@ -28,7 +28,7 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (player.getItemInHand().getType() == Material.STICK && event.getAction() == Action.LEFT_CLICK_BLOCK && Permission.LOCK.hasPermission(player) && plugin.lockableBlocks.contains(type) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
+		if (player.getItemInHand().getType() == Material.STICK && event.getAction() == Action.LEFT_CLICK_BLOCK && Permission.LOCK.has(player) && plugin.lockableBlocks.contains(type) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
 			String blockName = type.name().toLowerCase().replace('_', ' ');
 			String ucfBlockName = Character.toUpperCase(blockName.charAt(0)) + blockName.substring(1);
 			
@@ -38,7 +38,7 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 			}else{
 				String owner = Locker.getOwner(block);
 				
-				if (!Permission.UNLOCK_LOCKED.hasPermission(player) && !owner.equals(playerName)){
+				if (!Permission.UNLOCK_LOCKED.has(player) && !owner.equals(playerName)){
 					player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + owner));
 				}else{
 					plugin.locker.unlock(block);
