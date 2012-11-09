@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import org.bukkit.Material;
 
-import uk.co.jacekk.bukkit.baseplugin.v4.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.v4.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v5.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.v5.config.PluginConfig;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableBreakListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
@@ -28,7 +28,7 @@ public class GroupLock extends BasePlugin {
 	public void onEnable(){
 		super.onEnable(true);
 		
-		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.values(), this.log);
+		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
 		this.lockableDoorBlocks = new ArrayList<Material>();
 		this.lockableStorageBlocks = new ArrayList<Material>();
@@ -70,7 +70,7 @@ public class GroupLock extends BasePlugin {
 		
 		this.commandManager.registerCommandExecutor(new LockExecutor(this));
 		
-		this.permissionManager.registerPermissions(Permission.values());
+		this.permissionManager.registerPermissions(Permission.class);
 	}
 	
 	public void onDisable(){

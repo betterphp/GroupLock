@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import uk.co.jacekk.bukkit.baseplugin.v4.scheduler.BaseTask;
+import uk.co.jacekk.bukkit.baseplugin.v5.scheduler.BaseTask;
 
 public class SimpleChestLockImportTask extends BaseTask<GroupLock> {
 	

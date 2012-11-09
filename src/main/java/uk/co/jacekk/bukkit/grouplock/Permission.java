@@ -1,57 +1,13 @@
 package uk.co.jacekk.bukkit.grouplock;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
-import uk.co.jacekk.bukkit.baseplugin.v4.permissions.PluginPermission;
+import uk.co.jacekk.bukkit.baseplugin.v5.permissions.PluginPermission;
 
-public enum Permission implements PluginPermission {
+public class Permission {
 	
-	LOCK(			"grouplock.lock",				PermissionDefault.TRUE,		"Allows the player to lock/unlock blocks"),
-	OPEN_LOCKED(	"grouplock.lock.openall",		PermissionDefault.OP,		"Allows the player to open all locked blocks"),
-	UNLOCK_LOCKED(	"grouplock.lock.unlockall",		PermissionDefault.OP,		"Allows the player to unlock all locked blocks");
-	
-	protected String node;
-	protected PermissionDefault defaultValue;
-	protected String description;
-	
-	private Permission(String node, PermissionDefault defaultValue, String description){
-		this.node = node;
-		this.defaultValue = defaultValue;
-		this.description = description;
-	}
-	
-	public List<Player> getPlayersWith(){
-		ArrayList<Player> players = new ArrayList<Player>();
-		
-		for (Player player : Bukkit.getServer().getOnlinePlayers()){
-			if (this.has(player)){
-				players.add(player);
-			}
-		}
-		
-		return players;
-	}
-	
-	public boolean has(CommandSender sender){
-		return sender.hasPermission(this.node);
-	}
-	
-	public String getNode(){
-		return this.node;
-	}
-	
-	public PermissionDefault getDefault(){
-		return this.defaultValue;
-	}
-	
-	public String getDescription(){
-		return this.description;
-	}
+	public static final PluginPermission LOCK				= new PluginPermission("grouplock.lock", 			PermissionDefault.TRUE, "Allows the player to lock/unlock blocks");
+	public static final PluginPermission OPEN_LOCKED		= new PluginPermission("grouplock.lock.openall",	PermissionDefault.OP,	"Allows the player to open all locked blocks");
+	public static final PluginPermission UNLOCK_LOCKED	= new PluginPermission("grouplock.lock.unlockall",	PermissionDefault.OP,	"Allows the player to unlock all locked blocks");
 	
 }
