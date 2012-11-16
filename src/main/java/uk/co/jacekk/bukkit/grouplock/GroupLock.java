@@ -43,11 +43,14 @@ public class GroupLock extends BasePlugin {
 		this.lockableStorageBlocks.add(Material.CHEST);
 		this.lockableStorageBlocks.add(Material.FURNACE);
 		this.lockableStorageBlocks.add(Material.BURNING_FURNACE);
+		this.lockableStorageBlocks.add(Material.ANVIL);
+		this.lockableStorageBlocks.add(Material.COMMAND);
 		this.lockableStorageBlocks.add(Material.DISPENSER);
 		this.lockableStorageBlocks.add(Material.BREWING_STAND);
 		this.lockableStorageBlocks.add(Material.ENCHANTMENT_TABLE);
 		this.lockableStorageBlocks.add(Material.JUKEBOX);
 		this.lockableStorageBlocks.add(Material.STONE_BUTTON);
+		this.lockableStorageBlocks.add(Material.WOOD_BUTTON);
 		this.lockableStorageBlocks.add(Material.STONE_PLATE);
 		this.lockableStorageBlocks.add(Material.WOOD_PLATE);
 		this.lockableStorageBlocks.add(Material.LEVER);
