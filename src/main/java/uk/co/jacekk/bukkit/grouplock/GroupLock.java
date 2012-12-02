@@ -91,7 +91,6 @@ public class GroupLock extends BasePlugin {
 		this.locker = new Locker(this);
 		
 		this.scheduler.scheduleSyncDelayedTask(this, new SetBlockMetadataTask(this), 5L);
-		this.scheduler.scheduleSyncDelayedTask(this, new SimpleChestLockImportTask(this), 10L);
 		
 		this.pluginManager.registerEvents(new LockableLockListener(this), this);
 		this.pluginManager.registerEvents(new LockablePlaceListener(this), this);
