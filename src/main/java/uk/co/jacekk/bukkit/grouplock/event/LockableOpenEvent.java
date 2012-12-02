@@ -6,6 +6,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockable;
 
 public class LockableOpenEvent extends Event implements Cancellable {
@@ -17,13 +18,15 @@ public class LockableOpenEvent extends Event implements Cancellable {
 	private Block block;
 	private Player player;
 	private TileEntityLockable lockable;
+	private LockableBlock lockableBlock;
 	
-	public LockableOpenEvent(Block block, Player player, TileEntityLockable lockable){
+	public LockableOpenEvent(Block block, Player player, TileEntityLockable lockable, LockableBlock lockableBlock){
 		this.canceled = false;
 		
 		this.block = block;
 		this.player = player;
 		this.lockable = lockable;
+		this.lockableBlock = lockableBlock;
 	}
 	
 	public HandlerList getHandlers(){
@@ -52,6 +55,10 @@ public class LockableOpenEvent extends Event implements Cancellable {
 	
 	public TileEntityLockable getlockable(){
 		return this.lockable;
+	}
+	
+	public LockableBlock getLockableBlock(){
+		return this.lockableBlock;
 	}
 	
 }

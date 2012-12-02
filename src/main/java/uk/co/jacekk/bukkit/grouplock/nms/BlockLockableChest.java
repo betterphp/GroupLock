@@ -3,6 +3,7 @@ package uk.co.jacekk.bukkit.grouplock.nms;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
+import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
 import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
 
@@ -37,7 +38,7 @@ public class BlockLockableChest extends BlockChest {
 		org.bukkit.entity.Player player = (org.bukkit.entity.Player) entity.getBukkitEntity();
 		TileEntityLockable lockable = (TileEntityLockable) world.getTileEntity(x, y, z);
 		
-		Bukkit.getPluginManager().callEvent(new LockablePlacedEvent(block, player, lockable));
+		Bukkit.getPluginManager().callEvent(new LockablePlacedEvent(block, player, lockable, LockableBlock.CHEST));
 	}
 	
 	public boolean interact(World world, int x, int y, int z, EntityHuman entity, int i1, float f1, float f2, float f3){
@@ -45,7 +46,7 @@ public class BlockLockableChest extends BlockChest {
 		org.bukkit.entity.Player player = (org.bukkit.entity.Player) entity.getBukkitEntity();
 		TileEntityLockable lockable = (TileEntityLockable) world.getTileEntity(x, y, z);
 		
-		LockableOpenEvent event = new LockableOpenEvent(block, player, lockable);
+		LockableOpenEvent event = new LockableOpenEvent(block, player, lockable, LockableBlock.CHEST);
 		Bukkit.getPluginManager().callEvent(event);
 		
 		if (event.isCancelled()){
