@@ -52,10 +52,12 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 		String blockName = type.name().toLowerCase().replace('_', ' ');
 		String ucfBlockName = Character.toUpperCase(blockName.charAt(0)) + blockName.substring(1);
 		
-		if (tileEntity != null || !(tileEntity instanceof TileEntityLockable)){
-			player.sendMessage(plugin.formatMessage(ChatColor.RED + ucfBlockName + " is not a lockable block"));
+		if (tileEntity == null || !(tileEntity instanceof TileEntityLockable)){
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "A" + blockName + " is not a lockable block"));
 			return;
 		}
+		
+		// TODO: get adjacent blocks
 		
 		TileEntityLockable lockable = (TileEntityLockable) tileEntity;
 		
