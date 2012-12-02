@@ -101,7 +101,7 @@ public class TileEntityLockableChest extends TileEntityChest implements TileEnti
 	public void setOwnerName(String ownerName){
 		this.ownerName = ownerName;
 		
-		(new Exception()).printStackTrace();
+		System.out.println("NAME SET TO " + this.ownerName);
 	}
 	
 	public ArrayList<String> getAllowedPlayers(){

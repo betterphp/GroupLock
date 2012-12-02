@@ -25,6 +25,7 @@ import uk.co.jacekk.bukkit.baseplugin.v5.event.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Permission;
+import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
 import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockable;
 
 public class LockableLockListener extends BaseListener<GroupLock> {
@@ -37,17 +38,6 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 		this.searchLocations = new HashMap<Material, List<BlockFace>>();
 		
 		this.searchLocations.put(Material.CHEST, Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST));
-	}
-	
-	private TileEntityLockable getTileEntity(Block block){
-		World world = ((CraftWorld) block.getWorld()).getHandle();
-		TileEntity tileEntity = world.getTileEntity(block.getX(), block.getY(), block.getZ());
-		
-		if (tileEntity != null && tileEntity instanceof TileEntityLockable){
-			return (TileEntityLockable) tileEntity;
-		}
-		
-		return null;
 	}
 	
 	private ArrayList<TileEntityLockable> getTileEntities(Block block){
@@ -122,14 +112,14 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onBlockPlace(BlockPlaceEvent event){
+	public void onLockablePlace(LockablePlacedEvent event){
 		Block block = event.getBlock();
 		Material type = block.getType();
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
 		if (Permission.LOCK.has(player) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
-			TileEntityLockable lockable = this.getTileEntity(block);
+			TileEntityLockable lockable = event.getlockable();
 			ArrayList<TileEntityLockable> surrounding = this.getTileEntities(block);
 			
 			if (surrounding.size() > 1){
