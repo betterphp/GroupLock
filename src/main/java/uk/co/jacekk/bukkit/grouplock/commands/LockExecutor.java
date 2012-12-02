@@ -19,7 +19,7 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 		super(plugin);
 	}
 	
-	@CommandHandler(names = {"lock"}, description = "Lock or unlock a block", usage = "[<add/remove> <player_name>]")
+	@CommandHandler(names = {"lock", "l"}, description = "Lock or unlock a block", usage = "[<add/remove> <player_name>]")
 	public boolean lock(CommandSender sender, String label, String[] args){
 		if (!(sender instanceof Player)){
 			sender.sendMessage(plugin.formatMessage(ChatColor.RED + "The /lock command can only be used in game"));
