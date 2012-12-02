@@ -1,6 +1,7 @@
 name: GroupLock
-version: 0.4
+version: 0.5
 main: uk.co.jacekk.bukkit.grouplock.GroupLock
+load: startup
 commands:
     lock:
         usage: /<command> [<add/remove> <player_name>]

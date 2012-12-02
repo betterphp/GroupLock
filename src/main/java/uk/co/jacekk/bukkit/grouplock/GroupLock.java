@@ -1,17 +1,24 @@
 package uk.co.jacekk.bukkit.grouplock;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import net.minecraft.server.Block;
+import net.minecraft.server.TileEntity;
+import net.minecraft.server.TileEntityChest;
 
 import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.baseplugin.v5.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.v5.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v5.util.ReflectionUtils;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
-import uk.co.jacekk.bukkit.grouplock.listeners.LockableBreakListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableOpenListener;
-import uk.co.jacekk.bukkit.grouplock.listeners.LockablePlaceListener;
+import uk.co.jacekk.bukkit.grouplock.nms.BlockLockableChest;
+import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockableChest;
 import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStore;
 
 public class GroupLock extends BasePlugin {
@@ -29,6 +36,25 @@ public class GroupLock extends BasePlugin {
 		super.onEnable(true);
 		
 		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
+		
+		try{
+			HashMap<String, Class<?>> a = ReflectionUtils.getFieldValue(TileEntity.class, "a", HashMap.class, null);
+			HashMap<Class<?>, String> b = ReflectionUtils.getFieldValue(TileEntity.class, "b", HashMap.class, null);
+			
+			a.put("Chest", TileEntityLockableChest.class);
+			b.remove(TileEntityChest.class);
+			b.put(TileEntityLockableChest.class, "Chest");
+			
+			ReflectionUtils.setFieldValue(TileEntity.class, "a", null, a);
+			ReflectionUtils.setFieldValue(TileEntity.class, "b", null, b);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		Block.byId[Material.CHEST.getId()] = null;
+		Block.byId[Material.CHEST.getId()] = new BlockLockableChest();
+		
+		ReflectionUtils.setFieldValue(Block.class, "CHEST", null, Block.byId[Material.CHEST.getId()]);
 		
 		this.lockableDoorBlocks = new ArrayList<Material>();
 		this.lockableStorageBlocks = new ArrayList<Material>();
@@ -58,6 +84,7 @@ public class GroupLock extends BasePlugin {
 		this.lockableBlocks.addAll(this.lockableDoorBlocks);
 		this.lockableBlocks.addAll(this.lockableStorageBlocks);
 		
+		/*
 		this.lockedBlocks = new LockedBlockStore(new File(this.baseDirPath + File.separator + "locked-blocks.bin"));
 		this.lockedBlocks.load();
 		
@@ -70,6 +97,10 @@ public class GroupLock extends BasePlugin {
 		this.pluginManager.registerEvents(new LockablePlaceListener(this), this);
 		this.pluginManager.registerEvents(new LockableOpenListener(this), this);
 		this.pluginManager.registerEvents(new LockableBreakListener(this), this);
+		*/
+		
+		this.pluginManager.registerEvents(new LockableLockListener(this), this);
+		this.pluginManager.registerEvents(new LockableOpenListener(this), this);
 		
 		this.commandManager.registerCommandExecutor(new LockExecutor(this));
 		
