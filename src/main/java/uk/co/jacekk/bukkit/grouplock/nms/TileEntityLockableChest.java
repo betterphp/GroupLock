@@ -27,10 +27,10 @@ public class TileEntityLockableChest extends TileEntityChest implements TileEnti
 		
 		NBTTagCompound data = compound.getCompound("GroupLock");
 		
-		if (data != null && this.ownerName != null){
+		if (data != null){
 			this.ownerName = data.getString("owner-name");
 			
-			if (this.ownerName != null){
+			if (this.ownerName == null || this.ownerName.isEmpty()){
 				this.ownerName = null;
 			}
 			

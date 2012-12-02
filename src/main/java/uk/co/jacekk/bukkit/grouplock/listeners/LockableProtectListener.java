@@ -37,9 +37,9 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 		if (!lockable.canAccess(playerName)){
 			event.setCancelled(true);
 			player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwnerName()));
-		}else{
-			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Access to " + blockName + " granted"));
 		}
+		
+		player.sendMessage(plugin.formatMessage(ChatColor.AQUA + "That " + blockName + " is locked by " + lockable.getOwnerName()));
 	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -54,7 +54,7 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 		if (tileEntity != null && tileEntity instanceof TileEntityLockable){
 			TileEntityLockable lockable = (TileEntityLockable) tileEntity;
 			
-			if (lockable.canModify(playerName)){
+			if (!lockable.canModify(playerName)){
 				event.setCancelled(true);
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwnerName()));
 			}
@@ -118,7 +118,7 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 					if (tileEntity != null && tileEntity instanceof TileEntityLockable){
 						TileEntityLockable lockable = (TileEntityLockable) tileEntity;
 						
-						if (lockable.canAccess(playerName)){
+						if (!lockable.canAccess(playerName)){
 							event.setCancelled(true);
 							player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot place blocks this close to a locked " + blockName));
 						}
