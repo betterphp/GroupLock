@@ -30,8 +30,6 @@ public class GroupLock extends BasePlugin {
 	
 	public LockedBlockStore lockedBlocks;
 	
-	public Locker locker;
-	
 	public void onEnable(){
 		super.onEnable(true);
 		

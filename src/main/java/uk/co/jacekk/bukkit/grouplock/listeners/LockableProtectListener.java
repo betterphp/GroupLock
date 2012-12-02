@@ -84,10 +84,16 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent event){
+		World world = ((CraftWorld) event.getLocation().getWorld()).getHandle();
+		
 		for (Block block : event.blockList()){
-			if (plugin.locker.isBlockLocked(block)){
-				event.setCancelled(true);
-				return;
+			TileEntity tileEntity = world.getTileEntity(block.getX(), block.getY(), block.getZ());
+			
+			if (tileEntity != null && tileEntity instanceof TileEntityLockable){
+				if (((TileEntityLockable) tileEntity).hasOwnerName()){
+					event.setCancelled(true);
+					return;
+				}
 			}
 		}
 	}
