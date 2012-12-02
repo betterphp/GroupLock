@@ -16,7 +16,7 @@ import uk.co.jacekk.bukkit.baseplugin.v5.config.PluginConfig;
 import uk.co.jacekk.bukkit.baseplugin.v5.util.ReflectionUtils;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
-import uk.co.jacekk.bukkit.grouplock.listeners.LockableOpenListener;
+import uk.co.jacekk.bukkit.grouplock.listeners.LockableProtectListener;
 import uk.co.jacekk.bukkit.grouplock.nms.BlockLockableChest;
 import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockableChest;
 import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStore;
@@ -100,7 +100,7 @@ public class GroupLock extends BasePlugin {
 		*/
 		
 		this.pluginManager.registerEvents(new LockableLockListener(this), this);
-		this.pluginManager.registerEvents(new LockableOpenListener(this), this);
+		this.pluginManager.registerEvents(new LockableProtectListener(this), this);
 		
 		this.commandManager.registerCommandExecutor(new LockExecutor(this));
 		

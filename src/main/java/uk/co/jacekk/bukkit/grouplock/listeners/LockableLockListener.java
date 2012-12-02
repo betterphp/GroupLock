@@ -9,7 +9,6 @@ import net.minecraft.server.TileEntity;
 import net.minecraft.server.World;
 
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -18,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.v5.event.BaseListener;
@@ -114,7 +112,6 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onLockablePlace(LockablePlacedEvent event){
 		Block block = event.getBlock();
-		Material type = block.getType();
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
@@ -134,9 +131,7 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 			}else{
 				lockable.setOwnerName(playerName);
 				
-				String blockName = type.name().toLowerCase().replace('_', ' ');
-				
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + blockName + " created"));
+				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + block.getType().name().toLowerCase().replace('_', ' ') + " created"));
 				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "To unlock it use /lock while looking at it"));
 				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "alternativly, you can hit it with a stick"));
 			}
