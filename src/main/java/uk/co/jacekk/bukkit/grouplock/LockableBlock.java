@@ -5,7 +5,8 @@ import org.bukkit.Material;
 
 public enum LockableBlock {
 	
-	CHEST(Material.CHEST, Lockable.CONTAINER);
+	CHEST(Material.CHEST, Lockable.CONTAINER),
+	BEACON(Material.BEACON, Lockable.INTERACTIVE);
 	
 	private Material type;
 	private Lockable lockable;

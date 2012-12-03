@@ -7,28 +7,24 @@ import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
 import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
 
-import net.minecraft.server.Block;
-import net.minecraft.server.BlockChest;
+import net.minecraft.server.BlockBeacon;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.TileEntity;
-import net.minecraft.server.TileEntityBeacon;
 import net.minecraft.server.World;
 
-public class BlockLockableChest extends BlockChest {
+public class BlockLockableBeacon extends BlockBeacon {
 	
-	public BlockLockableChest(){
-		super(Material.CHEST.getId());
+	public BlockLockableBeacon(){
+		super(Material.BEACON.getId());
 		
-		this.c(2.5F);
-		this.a(Block.e);
-		this.b("chest");
-		this.r();
+		this.b("beacon");
+		this.a(1.0F);
 	}
 	
 	@Override
 	public TileEntity a(World world){
-		return new TileEntityLockableChest();
+		return new TileEntityLockableBeacon();
 	}
 	
 	@Override
@@ -39,7 +35,7 @@ public class BlockLockableChest extends BlockChest {
 		org.bukkit.entity.Player player = (org.bukkit.entity.Player) entity.getBukkitEntity();
 		TileEntityLockable lockable = (TileEntityLockable) world.getTileEntity(x, y, z);
 		
-		Bukkit.getPluginManager().callEvent(new LockablePlacedEvent(block, player, lockable, LockableBlock.CHEST));
+		Bukkit.getPluginManager().callEvent(new LockablePlacedEvent(block, player, lockable, LockableBlock.BEACON));
 	}
 	
 	@Override
@@ -48,7 +44,7 @@ public class BlockLockableChest extends BlockChest {
 		org.bukkit.entity.Player player = (org.bukkit.entity.Player) entity.getBukkitEntity();
 		TileEntityLockable lockable = (TileEntityLockable) world.getTileEntity(x, y, z);
 		
-		LockableOpenEvent event = new LockableOpenEvent(block, player, lockable, LockableBlock.CHEST);
+		LockableOpenEvent event = new LockableOpenEvent(block, player, lockable, LockableBlock.BEACON);
 		Bukkit.getPluginManager().callEvent(event);
 		
 		if (event.isCancelled()){

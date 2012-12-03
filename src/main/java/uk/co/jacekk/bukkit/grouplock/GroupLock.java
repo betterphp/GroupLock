@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import net.minecraft.server.Block;
 import net.minecraft.server.TileEntity;
+import net.minecraft.server.TileEntityBeacon;
 import net.minecraft.server.TileEntityChest;
 
 import org.bukkit.Material;
@@ -17,7 +18,9 @@ import uk.co.jacekk.bukkit.baseplugin.v5.util.ReflectionUtils;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableProtectListener;
+import uk.co.jacekk.bukkit.grouplock.nms.BlockLockableBeacon;
 import uk.co.jacekk.bukkit.grouplock.nms.BlockLockableChest;
+import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockableBeacon;
 import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockableChest;
 import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStore;
 
@@ -43,6 +46,10 @@ public class GroupLock extends BasePlugin {
 			b.remove(TileEntityChest.class);
 			b.put(TileEntityLockableChest.class, "Chest");
 			
+			a.put("Beacon", TileEntityLockableBeacon.class);
+			b.remove(TileEntityBeacon.class);
+			b.put(TileEntityLockableBeacon.class, "Beacon");
+			
 			ReflectionUtils.setFieldValue(TileEntity.class, "a", null, a);
 			ReflectionUtils.setFieldValue(TileEntity.class, "b", null, b);
 		}catch (Exception e){
@@ -52,7 +59,11 @@ public class GroupLock extends BasePlugin {
 		Block.byId[Material.CHEST.getId()] = null;
 		Block.byId[Material.CHEST.getId()] = new BlockLockableChest();
 		
+		Block.byId[Material.BEACON.getId()] = null;
+		Block.byId[Material.BEACON.getId()] = new BlockLockableBeacon();
+		
 		ReflectionUtils.setFieldValue(Block.class, "CHEST", null, Block.byId[Material.CHEST.getId()]);
+		ReflectionUtils.setFieldValue(Block.class, "BEACON", null, Block.byId[Material.BEACON.getId()]);
 		
 		this.lockableDoorBlocks = new ArrayList<Material>();
 		this.lockableStorageBlocks = new ArrayList<Material>();
