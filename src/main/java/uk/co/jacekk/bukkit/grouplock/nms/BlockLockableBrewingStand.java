@@ -1,7 +1,6 @@
 package uk.co.jacekk.bukkit.grouplock.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
@@ -16,7 +15,7 @@ import net.minecraft.server.World;
 public class BlockLockableBrewingStand extends BlockBrewingStand {
 	
 	public BlockLockableBrewingStand(){
-		super(Material.BREWING_STAND.getId());
+		super(LockableBlock.BREWING_STAND.getType().getId());
 		
 		this.c(0.5f);
 		this.a(0.125f);

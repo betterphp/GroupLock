@@ -1,7 +1,6 @@
 package uk.co.jacekk.bukkit.grouplock.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
@@ -16,7 +15,7 @@ import net.minecraft.server.World;
 public class BlockLockableNote extends BlockNote {
 	
 	public BlockLockableNote(){
-		super(Material.NOTE_BLOCK.getId());
+		super(LockableBlock.NOTE_BLOCK.getType().getId());
 		
 		this.c(0.8f);
 		this.b("musicBlock");

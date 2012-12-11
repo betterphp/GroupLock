@@ -1,7 +1,6 @@
 package uk.co.jacekk.bukkit.grouplock.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
@@ -16,7 +15,7 @@ import net.minecraft.server.World;
 public class BlockLockableCommand extends BlockCommand {
 	
 	public BlockLockableCommand(){
-		super(Material.COMMAND.getId());
+		super(LockableBlock.COMMAND_BLOCK.getType().getId());
 		
 		this.b("commandBlock");
 	}
@@ -34,7 +33,7 @@ public class BlockLockableCommand extends BlockCommand {
 		org.bukkit.entity.Player player = (org.bukkit.entity.Player) entity.getBukkitEntity();
 		TileEntityLockable lockable = (TileEntityLockable) world.getTileEntity(x, y, z);
 		
-		Bukkit.getPluginManager().callEvent(new LockablePlacedEvent(block, player, lockable, LockableBlock.COMMAND));
+		Bukkit.getPluginManager().callEvent(new LockablePlacedEvent(block, player, lockable, LockableBlock.COMMAND_BLOCK));
 	}
 	
 	@Override
@@ -43,7 +42,7 @@ public class BlockLockableCommand extends BlockCommand {
 		org.bukkit.entity.Player player = (org.bukkit.entity.Player) entity.getBukkitEntity();
 		TileEntityLockable lockable = (TileEntityLockable) world.getTileEntity(x, y, z);
 		
-		LockableOpenEvent event = new LockableOpenEvent(block, player, lockable, LockableBlock.COMMAND);
+		LockableOpenEvent event = new LockableOpenEvent(block, player, lockable, LockableBlock.COMMAND_BLOCK);
 		Bukkit.getPluginManager().callEvent(event);
 		
 		if (event.isCancelled()){

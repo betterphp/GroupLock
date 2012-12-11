@@ -1,7 +1,6 @@
 package uk.co.jacekk.bukkit.grouplock.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
@@ -16,7 +15,7 @@ import net.minecraft.server.World;
 public class BlockLockableBeacon extends BlockBeacon {
 	
 	public BlockLockableBeacon(){
-		super(Material.BEACON.getId());
+		super(LockableBlock.BEACON.getType().getId());
 		
 		this.b("beacon");
 		this.a(1.0F);

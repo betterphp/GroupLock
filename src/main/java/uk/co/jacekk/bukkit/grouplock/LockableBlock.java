@@ -52,7 +52,7 @@ public enum LockableBlock {
 	FENCE_GATE(Material.FENCE_GATE, Lockable.ENTRANCE, "FenceGate", null, TileEntityLockableFenceGate.class, "FENCE_GATE", new BlockLockableFenceGate()),
 	
 	BEACON(Material.BEACON, Lockable.INTERACTIVE, "Beacon", TileEntityBeacon.class, TileEntityLockableBeacon.class, "BEACON", new BlockLockableBeacon()),
-	COMMAND(Material.COMMAND, Lockable.INTERACTIVE, "Control", TileEntityCommand.class, TileEntityLockableCommand.class, "COMMAND", new BlockLockableCommand()),
+	COMMAND_BLOCK(Material.COMMAND, Lockable.INTERACTIVE, "Control", TileEntityCommand.class, TileEntityLockableCommand.class, "COMMAND", new BlockLockableCommand()),
 	ENCHANTMENT_TABLE(Material.ENCHANTMENT_TABLE, Lockable.INTERACTIVE, "EnchantTable", TileEntityEnchantTable.class, TileEntityLockableEnchantmentTable.class, "ENCHANTMENT_TABLE", new BlockLockableEnchantmentTable()),
 	NOTE_BLOCK(Material.NOTE_BLOCK, Lockable.INTERACTIVE, "Music", TileEntityNote.class, TileEntityLockableNote.class, "NOTE_BLOCK", new BlockLockableNote()),
 	ANVIL(Material.ANVIL, Lockable.INTERACTIVE, "Anvil", null, TileEntityLockableAnvil.class, "ANVIL", new BlockLockableAnvil()),

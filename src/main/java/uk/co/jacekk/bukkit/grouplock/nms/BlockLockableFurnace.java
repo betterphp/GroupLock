@@ -1,7 +1,6 @@
 package uk.co.jacekk.bukkit.grouplock.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
@@ -18,7 +17,7 @@ import net.minecraft.server.World;
 public class BlockLockableFurnace extends BlockFurnace {
 	
 	public BlockLockableFurnace(){
-		super(Material.FURNACE.getId(), false);
+		super(LockableBlock.FURNACE.getType().getId(), false);
 		
 		this.c(3.5F);
 		this.a(Block.h);

@@ -1,7 +1,6 @@
 package uk.co.jacekk.bukkit.grouplock.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
@@ -17,7 +16,7 @@ import net.minecraft.server.World;
 public class BlockLockableJukeBox extends BlockJukeBox {
 	
 	public BlockLockableJukeBox(){
-		super(Material.JUKEBOX.getId(), 74);
+		super(LockableBlock.JUKEBOX.getType().getId(), 74);
 		
 		this.c(2.0f);
 		this.b(10.0f);

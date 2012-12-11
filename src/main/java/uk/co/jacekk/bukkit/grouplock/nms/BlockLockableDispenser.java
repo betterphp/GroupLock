@@ -1,7 +1,6 @@
 package uk.co.jacekk.bukkit.grouplock.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
@@ -17,7 +16,7 @@ import net.minecraft.server.World;
 public class BlockLockableDispenser extends BlockDispenser {
 
 	public BlockLockableDispenser(){
-		super(Material.DISPENSER.getId());
+		super(LockableBlock.DISPENSER.getType().getId());
 		
 		this.c(3.5f);
 		this.a(Block.h);

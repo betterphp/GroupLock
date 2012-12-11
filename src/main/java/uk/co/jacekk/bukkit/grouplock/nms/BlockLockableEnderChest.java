@@ -1,7 +1,6 @@
 package uk.co.jacekk.bukkit.grouplock.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
@@ -17,7 +16,7 @@ import net.minecraft.server.World;
 public class BlockLockableEnderChest extends BlockEnderChest {
 	
 	public BlockLockableEnderChest(){
-		super(Material.ENDER_CHEST.getId());
+		super(LockableBlock.ENDER_CHEST.getType().getId());
 		
 		this.c(22.5f);
 		this.b(1000.0f);

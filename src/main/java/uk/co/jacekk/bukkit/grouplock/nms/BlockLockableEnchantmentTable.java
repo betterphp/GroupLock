@@ -1,7 +1,6 @@
 package uk.co.jacekk.bukkit.grouplock.nms;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
@@ -16,7 +15,7 @@ import net.minecraft.server.World;
 public class BlockLockableEnchantmentTable extends BlockEnchantmentTable {
 	
 	public BlockLockableEnchantmentTable(){
-		super(Material.ENCHANTMENT_TABLE.getId());
+		super(LockableBlock.ENCHANTMENT_TABLE.getType().getId());
 		
 		this.c(5.0f);
 		this.b(2000.0f);
