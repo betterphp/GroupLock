@@ -2,6 +2,7 @@ package uk.co.jacekk.bukkit.grouplock.nms;
 
 import java.util.ArrayList;
 
+import net.minecraft.server.NBTTagByte;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.NBTTagString;
@@ -10,12 +11,14 @@ import net.minecraft.server.TileEntityBeacon;
 public class TileEntityLockableBeacon extends TileEntityBeacon implements TileEntityLockable {
 	
 	private String ownerName;
+	private boolean locked;
 	
 	private ArrayList<String> allowedPlayers;
 	private ArrayList<String> allowedGroups;
 	
 	public TileEntityLockableBeacon(){
 		this.ownerName = null;
+		this.locked = false;
 		
 		this.allowedPlayers = new ArrayList<String>();
 		this.allowedGroups = new ArrayList<String>();
@@ -29,9 +32,11 @@ public class TileEntityLockableBeacon extends TileEntityBeacon implements TileEn
 		
 		if (data != null){
 			this.ownerName = data.getString("owner-name");
+			this.locked = (data.getByte("locked") != 0);
 			
 			if (this.ownerName == null || this.ownerName.isEmpty()){
 				this.ownerName = null;
+				this.locked = false;
 			}
 			
 			NBTTagList allowedPlayers = data.getList("allowed-players");
@@ -60,6 +65,8 @@ public class TileEntityLockableBeacon extends TileEntityBeacon implements TileEn
 		if (this.hasOwnerName()){
 			data.set("owner-name", new NBTTagString("owner-name", this.ownerName));
 		}
+		
+		data.set("locked", new NBTTagByte("locked", (byte)((this.locked) ? 1 : 0)));
 		
 		NBTTagList allowedPlayers = new NBTTagList();
 		NBTTagList allowedGroups = new NBTTagList();
@@ -104,6 +111,14 @@ public class TileEntityLockableBeacon extends TileEntityBeacon implements TileEn
 		System.out.println("NAME SET TO " + this.ownerName);
 	}
 	
+	public boolean isLocked(){
+		return this.locked;
+	}
+	
+	public void setLocked(boolean lock){
+		this.locked = lock;
+	}
+	
 	public ArrayList<String> getAllowedPlayers(){
 		return this.allowedPlayers;
 	}
@@ -118,6 +133,8 @@ public class TileEntityLockableBeacon extends TileEntityBeacon implements TileEn
 	
 	public void reset(){
 		this.ownerName = null;
+		this.locked = false;
+		
 		this.allowedPlayers.clear();
 		this.allowedGroups.clear();
 	}

@@ -16,6 +16,10 @@ public interface TileEntityLockable {
 	
 	public void setOwnerName(String ownerName);
 	
+	public boolean isLocked();
+	
+	public void setLocked(boolean lock);
+	
 	public ArrayList<String> getAllowedPlayers();
 	
 	public void addAllowedPlayer(String playerName);

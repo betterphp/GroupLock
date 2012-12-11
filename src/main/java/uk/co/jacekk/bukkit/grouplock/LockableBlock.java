@@ -37,7 +37,6 @@ import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockableFurnace;
 import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockableJukeBox;
 import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockableNote;
 
-
 public enum LockableBlock {
 	
 	CHEST(Material.CHEST, Lockable.CONTAINER, "Chest", TileEntityChest.class, TileEntityLockableChest.class, "CHEST", new BlockLockableChest()),
