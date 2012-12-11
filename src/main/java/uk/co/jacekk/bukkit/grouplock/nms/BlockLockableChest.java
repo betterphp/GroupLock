@@ -12,7 +12,6 @@ import net.minecraft.server.BlockChest;
 import net.minecraft.server.EntityHuman;
 import net.minecraft.server.EntityLiving;
 import net.minecraft.server.TileEntity;
-import net.minecraft.server.TileEntityBeacon;
 import net.minecraft.server.World;
 
 public class BlockLockableChest extends BlockChest {

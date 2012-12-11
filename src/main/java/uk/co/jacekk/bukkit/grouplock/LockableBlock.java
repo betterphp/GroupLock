@@ -46,10 +46,24 @@ public enum LockableBlock {
 	BREWING_STAND(Material.BREWING_STAND, Lockable.CONTAINER, "Cauldron", TileEntityBrewingStand.class, TileEntityLockableBrewingStand.class, "BREWING_STAND", new BlockLockableBrewingStand()),
 	JUKEBOX(Material.JUKEBOX, Lockable.CONTAINER, "RecordPlayer", TileEntityRecordPlayer.class, TileEntityLockableJukeBox.class, "JUKEBOX", new BlockLockableJukeBox()),
 	
+	WOOD_DOOR(Material.WOODEN_DOOR, Lockable.ENTRANCE, "WoodDoor", null, TileEntityLockableWoodDoor.class, "WOODEN_DOOR", new BlockLockableWoodDoor()),
+	IRON_DOOR(Material.IRON_DOOR_BLOCK, Lockable.ENTRANCE, "IronDoor", null, TileEntityLockableIronDoor.class, "IRON_DOOR_BLOCK", new BlockLockableIronDoor()),
+	TRAP_DOOR(Material.TRAP_DOOR, Lockable.ENTRANCE, "TrapDoor", null, TileEntityLockableTrapDoor.class, "TRAP_DOOR", new BlockLockableTrapDoor()),
+	FENCE_GATE(Material.FENCE_GATE, Lockable.ENTRANCE, "FenceGate", null, TileEntityLockableFenceGate.class, "FENCE_GATE", new BlockLockableFenceGate()),
+	
 	BEACON(Material.BEACON, Lockable.INTERACTIVE, "Beacon", TileEntityBeacon.class, TileEntityLockableBeacon.class, "BEACON", new BlockLockableBeacon()),
 	COMMAND(Material.COMMAND, Lockable.INTERACTIVE, "Control", TileEntityCommand.class, TileEntityLockableCommand.class, "COMMAND", new BlockLockableCommand()),
 	ENCHANTMENT_TABLE(Material.ENCHANTMENT_TABLE, Lockable.INTERACTIVE, "EnchantTable", TileEntityEnchantTable.class, TileEntityLockableEnchantmentTable.class, "ENCHANTMENT_TABLE", new BlockLockableEnchantmentTable()),
-	NOTE_BLOCK(Material.NOTE_BLOCK, Lockable.INTERACTIVE, "Music", TileEntityNote.class, TileEntityLockableNote.class, "NOTE_BLOCK", new BlockLockableNote());
+	NOTE_BLOCK(Material.NOTE_BLOCK, Lockable.INTERACTIVE, "Music", TileEntityNote.class, TileEntityLockableNote.class, "NOTE_BLOCK", new BlockLockableNote()),
+	ANVIL(Material.ANVIL, Lockable.INTERACTIVE, "Anvil", null, TileEntityLockableAnvil.class, "ANVIL", new BlockLockableAnvil()),
+	STONE_BUTTON(Material.STONE_BUTTON, Lockable.INTERACTIVE, "StoneButton", null, TileEntityLockableStoneButton.class, "STONE_BUTTON", new BlockLockableStoneButton()),
+	WOOD_BUTTON(Material.WOOD_BUTTON, Lockable.INTERACTIVE, "WoodButton", null, TileEntityLockableWoodButton.class, "WOOD_BUTTON", new BlockLockableWoodButton()),
+	STONE_PRESSURE_PLATE(Material.STONE_PLATE, Lockable.INTERACTIVE, "StonePressurePlate", null, TileEntityLockableStonePressurePlate.class, "STONE_PLATE", new BlockLockableStonePressurePlate()),
+	WOOD_PRESSURE_PLATE(Material.WOOD_PLATE, Lockable.INTERACTIVE, "WoodPressurePlate", null, TileEntityLockableWoodPressurePlate.class, "WOOD_PLATE", new BlockLockableWoodPressurePlate()),
+	LEVER(Material.LEVER, Lockable.INTERACTIVE, "Lever", null, TileEntityLockableLever.class, "LEVER", new BlockLockableLever()),
+	REDSTONE_REPEATER(Material.DIODE_BLOCK_ON, Lockable.INTERACTIVE, "RedstoneRepeater", null, TileEntityLockableRedstoneRepeater.class, "DIODE_ON", new BlockLockableRedstoneRepeater());
+	
+	// TODO: Need burning furnace and diode off ?
 	
 	private Material type;
 	private Lockable lockable;
