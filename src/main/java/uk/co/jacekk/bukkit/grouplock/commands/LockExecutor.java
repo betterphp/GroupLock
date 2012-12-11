@@ -23,6 +23,16 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 		super(plugin);
 	}
 	
+	@CommandHandler(names = {"claim", "c"}, description = "Marks a block as yours so it can be locked")
+	public void claim(CommandSender sender, String label, String[] args){
+		
+	}
+	
+	@CommandHandler(names = {"unclaim", "uc"}, description = "Removes you as the owner of a block so someone else can claim it")
+	public void unclaim(CommandSender sender, String label, String[] args){
+		
+	}
+	
 	@CommandHandler(names = {"lock", "l"}, description = "Lock or unlock a block", usage = "[<add/remove> <player_name>]")
 	public void lock(CommandSender sender, String label, String[] args){
 		if (!(sender instanceof Player)){
@@ -83,6 +93,11 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
 			}
 		}
+	}
+	
+	@CommandHandler(names = {"unlock", "ul"}, description = "Unlocks a block")
+	public void unlock(CommandSender sender, String label, String[] args){
+		
 	}
 	
 }
