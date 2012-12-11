@@ -1,14 +1,11 @@
 package uk.co.jacekk.bukkit.grouplock;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.minecraft.server.Block;
 import net.minecraft.server.TileEntity;
-import net.minecraft.server.TileEntityBeacon;
-import net.minecraft.server.TileEntityChest;
 
 import org.bukkit.Material;
 
@@ -20,8 +17,7 @@ import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableProtectListener;
 import uk.co.jacekk.bukkit.grouplock.nms.BlockLockableBeacon;
 import uk.co.jacekk.bukkit.grouplock.nms.BlockLockableChest;
-import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockableBeacon;
-import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockableChest;
+import uk.co.jacekk.bukkit.grouplock.nms.BlockLockableFurnace;
 import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStore;
 
 public class GroupLock extends BasePlugin {
@@ -42,28 +38,22 @@ public class GroupLock extends BasePlugin {
 			HashMap<String, Class<?>> a = ReflectionUtils.getFieldValue(TileEntity.class, "a", HashMap.class, null);
 			HashMap<Class<?>, String> b = ReflectionUtils.getFieldValue(TileEntity.class, "b", HashMap.class, null);
 			
-			a.put("Chest", TileEntityLockableChest.class);
-			b.remove(TileEntityChest.class);
-			b.put(TileEntityLockableChest.class, "Chest");
-			
-			a.put("Beacon", TileEntityLockableBeacon.class);
-			b.remove(TileEntityBeacon.class);
-			b.put(TileEntityLockableBeacon.class, "Beacon");
+			for (LockableBlock lockable : LockableBlock.values()){
+				a.put(lockable.getTileEntityID(), lockable.getLockableTileEntity());
+				b.remove(lockable.getVanillaTileEntity());
+				b.put(lockable.getLockableTileEntity(), lockable.getTileEntityID());
+				
+				Block.byId[lockable.getType().getId()] = null;
+				Block.byId[lockable.getType().getId()] = lockable.getBlock();
+				
+				ReflectionUtils.setFieldValue(Block.class, lockable.getBlockFieldName(), null, lockable.getBlock());
+			}
 			
 			ReflectionUtils.setFieldValue(TileEntity.class, "a", null, a);
 			ReflectionUtils.setFieldValue(TileEntity.class, "b", null, b);
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-		
-		Block.byId[Material.CHEST.getId()] = null;
-		Block.byId[Material.CHEST.getId()] = new BlockLockableChest();
-		
-		Block.byId[Material.BEACON.getId()] = null;
-		Block.byId[Material.BEACON.getId()] = new BlockLockableBeacon();
-		
-		ReflectionUtils.setFieldValue(Block.class, "CHEST", null, Block.byId[Material.CHEST.getId()]);
-		ReflectionUtils.setFieldValue(Block.class, "BEACON", null, Block.byId[Material.BEACON.getId()]);
 		
 		this.lockableDoorBlocks = new ArrayList<Material>();
 		this.lockableStorageBlocks = new ArrayList<Material>();

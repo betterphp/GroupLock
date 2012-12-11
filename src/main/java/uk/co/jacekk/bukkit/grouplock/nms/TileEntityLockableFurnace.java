@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import net.minecraft.server.NBTTagCompound;
 import net.minecraft.server.NBTTagList;
 import net.minecraft.server.NBTTagString;
-import net.minecraft.server.TileEntityBeacon;
+import net.minecraft.server.TileEntityFurnace;
 
-public class TileEntityLockableBeacon extends TileEntityBeacon implements TileEntityLockable {
+public class TileEntityLockableFurnace extends TileEntityFurnace implements TileEntityLockable {
 	
 	private String ownerName;
 	
 	private ArrayList<String> allowedPlayers;
 	private ArrayList<String> allowedGroups;
 	
-	public TileEntityLockableBeacon(){
+	public TileEntityLockableFurnace(){
 		this.ownerName = null;
 		
 		this.allowedPlayers = new ArrayList<String>();
