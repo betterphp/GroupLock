@@ -24,7 +24,7 @@ import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Permission;
 import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
-import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockable;
+import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
 
 public class LockableLockListener extends BaseListener<GroupLock> {
 	

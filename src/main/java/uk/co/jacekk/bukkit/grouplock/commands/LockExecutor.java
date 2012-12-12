@@ -15,7 +15,7 @@ import uk.co.jacekk.bukkit.baseplugin.v5.command.CommandHandler;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Permission;
-import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockable;
+import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
 
 public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 	

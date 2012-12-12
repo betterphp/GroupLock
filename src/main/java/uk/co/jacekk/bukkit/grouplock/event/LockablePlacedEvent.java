@@ -6,7 +6,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import uk.co.jacekk.bukkit.grouplock.LockableBlock;
-import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockable;
+import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
 
 public class LockablePlacedEvent extends Event {
 	

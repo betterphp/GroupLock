@@ -17,7 +17,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import uk.co.jacekk.bukkit.baseplugin.v5.event.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
-import uk.co.jacekk.bukkit.grouplock.nms.TileEntityLockable;
+import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
 
 public class LockableProtectListener extends BaseListener<GroupLock> {
 	
