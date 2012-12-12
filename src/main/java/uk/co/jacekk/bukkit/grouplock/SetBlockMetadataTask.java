@@ -17,7 +17,7 @@ public class SetBlockMetadataTask extends BaseTask<GroupLock> {
 			Block block = storedBlock.getBlock();
 			
 			if (block != null){
-				if (!plugin.lockableBlocks.contains(block.getType()) || plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
+				if (!LockableBlock.getLockabletypes().contains(block.getType()) || plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
 					plugin.lockedBlocks.remove(block);
 				}else{
 					block.setMetadata("owner", new FixedMetadataValue(plugin, storedBlock.getOwner()));

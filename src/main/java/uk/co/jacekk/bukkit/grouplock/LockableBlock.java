@@ -1,5 +1,8 @@
 package uk.co.jacekk.bukkit.grouplock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.server.Block;
 import net.minecraft.server.TileEntity;
 import net.minecraft.server.TileEntityBeacon;
@@ -95,6 +98,8 @@ public enum LockableBlock {
 	private String blockFieldName;
 	private Block block;
 	
+	private static final List<Material> lockableTypes;
+	
 	private LockableBlock(Material type, Lockable lockable, String tileEntityID, Class<? extends TileEntity> vanillaTileEntity, Class<? extends TileEntityLockable> lockableTileEntity, String blockFieldName, Block block){
 		this.type = type;
 		this.lockable = lockable;
@@ -103,6 +108,14 @@ public enum LockableBlock {
 		this.lockableTileEntity = lockableTileEntity;
 		this.blockFieldName = blockFieldName;
 		this.block = block;
+	}
+	
+	static{
+		lockableTypes = new ArrayList<Material>();
+		
+		for (LockableBlock lockable : values()){
+			lockableTypes.add(lockable.getType());
+		}
 	}
 	
 	public Material getType(){
@@ -135,6 +148,10 @@ public enum LockableBlock {
 	
 	public Block getBlock(){
 		return this.block;
+	}
+	
+	public static List<Material> getLockabletypes(){
+		return lockableTypes;
 	}
 	
 }
