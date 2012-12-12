@@ -29,7 +29,7 @@ public class GroupLock extends BasePlugin {
 			HashMap<Class<?>, String> b = ReflectionUtils.getFieldValue(TileEntity.class, "b", HashMap.class, null);
 			
 			for (LockableBlock lockable : LockableBlock.values()){
-				if (lockable.getVanillaTileEntity() != null){
+				if (lockable.isVanillaTileEntity()){
 					b.remove(lockable.getVanillaTileEntity());
 				}
 				
