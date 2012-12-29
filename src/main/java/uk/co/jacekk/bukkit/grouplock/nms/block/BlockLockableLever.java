@@ -7,11 +7,12 @@ import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
 import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockableLever;
-import net.minecraft.server.Block;
-import net.minecraft.server.BlockLever;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.EntityLiving;
-import net.minecraft.server.World;
+
+import net.minecraft.server.v1_4_6.Block;
+import net.minecraft.server.v1_4_6.BlockLever;
+import net.minecraft.server.v1_4_6.EntityHuman;
+import net.minecraft.server.v1_4_6.EntityLiving;
+import net.minecraft.server.v1_4_6.World;
 
 public class BlockLockableLever extends BlockLever {
 	

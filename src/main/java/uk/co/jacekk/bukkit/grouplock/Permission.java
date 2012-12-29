@@ -2,7 +2,7 @@ package uk.co.jacekk.bukkit.grouplock;
 
 import org.bukkit.permissions.PermissionDefault;
 
-import uk.co.jacekk.bukkit.baseplugin.v5.permissions.PluginPermission;
+import uk.co.jacekk.bukkit.baseplugin.v7.permissions.PluginPermission;
 
 public class Permission {
 	

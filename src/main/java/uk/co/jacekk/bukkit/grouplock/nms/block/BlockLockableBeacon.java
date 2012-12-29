@@ -8,11 +8,11 @@ import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockableBeacon;
 
-import net.minecraft.server.BlockBeacon;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.EntityLiving;
-import net.minecraft.server.TileEntity;
-import net.minecraft.server.World;
+import net.minecraft.server.v1_4_6.BlockBeacon;
+import net.minecraft.server.v1_4_6.EntityHuman;
+import net.minecraft.server.v1_4_6.EntityLiving;
+import net.minecraft.server.v1_4_6.TileEntity;
+import net.minecraft.server.v1_4_6.World;
 
 public class BlockLockableBeacon extends BlockBeacon {
 	

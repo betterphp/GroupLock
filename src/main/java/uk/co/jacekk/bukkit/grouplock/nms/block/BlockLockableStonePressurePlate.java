@@ -7,13 +7,14 @@ import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
 import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockableStonePressurePlate;
-import net.minecraft.server.Block;
-import net.minecraft.server.BlockPressurePlate;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.EntityLiving;
-import net.minecraft.server.EnumMobType;
-import net.minecraft.server.Material;
-import net.minecraft.server.World;
+
+import net.minecraft.server.v1_4_6.Block;
+import net.minecraft.server.v1_4_6.BlockPressurePlate;
+import net.minecraft.server.v1_4_6.EntityHuman;
+import net.minecraft.server.v1_4_6.EntityLiving;
+import net.minecraft.server.v1_4_6.EnumMobType;
+import net.minecraft.server.v1_4_6.Material;
+import net.minecraft.server.v1_4_6.World;
 
 public class BlockLockableStonePressurePlate extends BlockPressurePlate {
 	

@@ -8,11 +8,11 @@ import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockableNote;
 
-import net.minecraft.server.BlockNote;
-import net.minecraft.server.EntityHuman;
-import net.minecraft.server.EntityLiving;
-import net.minecraft.server.TileEntity;
-import net.minecraft.server.World;
+import net.minecraft.server.v1_4_6.BlockNote;
+import net.minecraft.server.v1_4_6.EntityHuman;
+import net.minecraft.server.v1_4_6.EntityLiving;
+import net.minecraft.server.v1_4_6.TileEntity;
+import net.minecraft.server.v1_4_6.World;
 
 public class BlockLockableNote extends BlockNote {
 	

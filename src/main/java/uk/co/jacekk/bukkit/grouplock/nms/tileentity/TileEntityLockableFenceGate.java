@@ -2,11 +2,11 @@ package uk.co.jacekk.bukkit.grouplock.nms.tileentity;
 
 import java.util.ArrayList;
 
-import net.minecraft.server.NBTTagByte;
-import net.minecraft.server.NBTTagCompound;
-import net.minecraft.server.NBTTagList;
-import net.minecraft.server.NBTTagString;
-import net.minecraft.server.TileEntity;
+import net.minecraft.server.v1_4_6.NBTTagByte;
+import net.minecraft.server.v1_4_6.NBTTagCompound;
+import net.minecraft.server.v1_4_6.NBTTagList;
+import net.minecraft.server.v1_4_6.NBTTagString;
+import net.minecraft.server.v1_4_6.TileEntity;
 
 public class TileEntityLockableFenceGate extends TileEntity implements TileEntityLockable {
 	
