@@ -3,18 +3,18 @@ package uk.co.jacekk.bukkit.grouplock;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_4_6.Block;
-import net.minecraft.server.v1_4_6.TileEntity;
-import net.minecraft.server.v1_4_6.TileEntityBeacon;
-import net.minecraft.server.v1_4_6.TileEntityBrewingStand;
-import net.minecraft.server.v1_4_6.TileEntityChest;
-import net.minecraft.server.v1_4_6.TileEntityCommand;
-import net.minecraft.server.v1_4_6.TileEntityDispenser;
-import net.minecraft.server.v1_4_6.TileEntityEnchantTable;
-import net.minecraft.server.v1_4_6.TileEntityEnderChest;
-import net.minecraft.server.v1_4_6.TileEntityFurnace;
-import net.minecraft.server.v1_4_6.TileEntityNote;
-import net.minecraft.server.v1_4_6.TileEntityRecordPlayer;
+import net.minecraft.server.v1_4_R1.Block;
+import net.minecraft.server.v1_4_R1.TileEntity;
+import net.minecraft.server.v1_4_R1.TileEntityBeacon;
+import net.minecraft.server.v1_4_R1.TileEntityBrewingStand;
+import net.minecraft.server.v1_4_R1.TileEntityChest;
+import net.minecraft.server.v1_4_R1.TileEntityCommand;
+import net.minecraft.server.v1_4_R1.TileEntityDispenser;
+import net.minecraft.server.v1_4_R1.TileEntityEnchantTable;
+import net.minecraft.server.v1_4_R1.TileEntityEnderChest;
+import net.minecraft.server.v1_4_R1.TileEntityFurnace;
+import net.minecraft.server.v1_4_R1.TileEntityNote;
+import net.minecraft.server.v1_4_R1.TileEntityRecordPlayer;
 
 import org.bukkit.Material;
 

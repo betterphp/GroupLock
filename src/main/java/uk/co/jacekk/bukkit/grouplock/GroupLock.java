@@ -3,12 +3,12 @@ package uk.co.jacekk.bukkit.grouplock;
 import java.io.File;
 import java.util.HashMap;
 
-import net.minecraft.server.v1_4_6.Block;
-import net.minecraft.server.v1_4_6.TileEntity;
+import net.minecraft.server.v1_4_R1.Block;
+import net.minecraft.server.v1_4_R1.TileEntity;
 
-import uk.co.jacekk.bukkit.baseplugin.v7.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.v7.config.PluginConfig;
-import uk.co.jacekk.bukkit.baseplugin.v7.util.ReflectionUtils;
+import uk.co.jacekk.bukkit.baseplugin.v9.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.v9.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.v9.util.ReflectionUtils;
 import uk.co.jacekk.bukkit.grouplock.commands.GrantExecutor;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;

@@ -2,11 +2,11 @@ package uk.co.jacekk.bukkit.grouplock.nms.tileentity;
 
 import java.util.ArrayList;
 
-import net.minecraft.server.v1_4_6.NBTTagByte;
-import net.minecraft.server.v1_4_6.NBTTagCompound;
-import net.minecraft.server.v1_4_6.NBTTagList;
-import net.minecraft.server.v1_4_6.NBTTagString;
-import net.minecraft.server.v1_4_6.TileEntityEnderChest;
+import net.minecraft.server.v1_4_R1.NBTTagByte;
+import net.minecraft.server.v1_4_R1.NBTTagCompound;
+import net.minecraft.server.v1_4_R1.NBTTagList;
+import net.minecraft.server.v1_4_R1.NBTTagString;
+import net.minecraft.server.v1_4_R1.TileEntityEnderChest;
 
 public class TileEntityLockableEnderChest extends TileEntityEnderChest implements TileEntityLockable {
 	

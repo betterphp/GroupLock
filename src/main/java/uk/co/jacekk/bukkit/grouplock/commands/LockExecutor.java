@@ -1,17 +1,17 @@
 package uk.co.jacekk.bukkit.grouplock.commands;
 
-import net.minecraft.server.v1_4_6.TileEntity;
-import net.minecraft.server.v1_4_6.World;
+import net.minecraft.server.v1_4_R1.TileEntity;
+import net.minecraft.server.v1_4_R1.World;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_4_6.CraftWorld;
+import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.baseplugin.v7.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v7.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.v9.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.v9.command.CommandHandler;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Permission;

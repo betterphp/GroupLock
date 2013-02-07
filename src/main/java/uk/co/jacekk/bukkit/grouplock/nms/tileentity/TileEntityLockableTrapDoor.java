@@ -2,11 +2,11 @@ package uk.co.jacekk.bukkit.grouplock.nms.tileentity;
 
 import java.util.ArrayList;
 
-import net.minecraft.server.v1_4_6.NBTTagByte;
-import net.minecraft.server.v1_4_6.NBTTagCompound;
-import net.minecraft.server.v1_4_6.NBTTagList;
-import net.minecraft.server.v1_4_6.NBTTagString;
-import net.minecraft.server.v1_4_6.TileEntity;
+import net.minecraft.server.v1_4_R1.NBTTagByte;
+import net.minecraft.server.v1_4_R1.NBTTagCompound;
+import net.minecraft.server.v1_4_R1.NBTTagList;
+import net.minecraft.server.v1_4_R1.NBTTagString;
+import net.minecraft.server.v1_4_R1.TileEntity;
 
 public class TileEntityLockableTrapDoor extends TileEntity implements TileEntityLockable {
 	

@@ -8,13 +8,13 @@ import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockableFurnace;
 
-import net.minecraft.server.v1_4_6.Block;
-import net.minecraft.server.v1_4_6.BlockFurnace;
-import net.minecraft.server.v1_4_6.CreativeModeTab;
-import net.minecraft.server.v1_4_6.EntityHuman;
-import net.minecraft.server.v1_4_6.EntityLiving;
-import net.minecraft.server.v1_4_6.TileEntity;
-import net.minecraft.server.v1_4_6.World;
+import net.minecraft.server.v1_4_R1.Block;
+import net.minecraft.server.v1_4_R1.BlockFurnace;
+import net.minecraft.server.v1_4_R1.CreativeModeTab;
+import net.minecraft.server.v1_4_R1.EntityHuman;
+import net.minecraft.server.v1_4_R1.EntityLiving;
+import net.minecraft.server.v1_4_R1.TileEntity;
+import net.minecraft.server.v1_4_R1.World;
 
 public class BlockLockableBurningFurnace extends BlockFurnace {
 	
