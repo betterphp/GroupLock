@@ -2,14 +2,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>uk.co.jacekk.bukkit</groupId>
 	<artifactId>grouplock</artifactId>
+	<name>GroupLock</name>
 	<version>0.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
-	<name>GroupLock</name>
-	<url>http://dev.bukkit.org/server-mods/grouplock/</url>
-	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<!-- this page does not actually exist yet. -->
+		<upload.dbo.category>server-mods</upload.dbo.category>
+		<upload.dbo.slug>grouplock</upload.dbo.slug>
 	</properties>
 	
 	<repositories>
