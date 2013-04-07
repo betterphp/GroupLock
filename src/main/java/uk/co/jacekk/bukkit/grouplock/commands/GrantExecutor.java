@@ -2,8 +2,8 @@ package uk.co.jacekk.bukkit.grouplock.commands;
 
 import org.bukkit.command.CommandSender;
 
-import uk.co.jacekk.bukkit.baseplugin.v9.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v9.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 
 public class GrantExecutor extends BaseCommandExecutor<GroupLock> {

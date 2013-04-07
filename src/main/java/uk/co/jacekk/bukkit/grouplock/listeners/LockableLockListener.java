@@ -19,7 +19,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.v9.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Permission;

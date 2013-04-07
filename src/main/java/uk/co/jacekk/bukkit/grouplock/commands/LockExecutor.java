@@ -10,8 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
-import uk.co.jacekk.bukkit.baseplugin.v9.command.BaseCommandExecutor;
-import uk.co.jacekk.bukkit.baseplugin.v9.command.CommandHandler;
+import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
+import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Permission;

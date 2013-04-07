@@ -14,7 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
-import uk.co.jacekk.bukkit.baseplugin.v9.event.BaseListener;
+import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
 import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;

@@ -6,9 +6,9 @@ import java.util.HashMap;
 import net.minecraft.server.v1_4_R1.Block;
 import net.minecraft.server.v1_4_R1.TileEntity;
 
-import uk.co.jacekk.bukkit.baseplugin.v9.BasePlugin;
-import uk.co.jacekk.bukkit.baseplugin.v9.config.PluginConfig;
-import uk.co.jacekk.bukkit.baseplugin.v9.util.ReflectionUtils;
+import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
+import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
+import uk.co.jacekk.bukkit.baseplugin.util.ReflectionUtils;
 import uk.co.jacekk.bukkit.grouplock.commands.GrantExecutor;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
