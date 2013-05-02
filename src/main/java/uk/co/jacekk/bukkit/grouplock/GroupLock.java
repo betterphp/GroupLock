@@ -11,7 +11,6 @@ import uk.co.jacekk.bukkit.grouplock.locakble.LockManager;
 
 public class GroupLock extends BasePlugin {
 	
-	//public LockedBlockStore lockedBlocks;
 	public LockManager lockManager;
 	
 	public void onEnable(){
@@ -19,7 +18,8 @@ public class GroupLock extends BasePlugin {
 		
 		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
-		this.lockManager = new LockManager();
+		this.lockManager = new LockManager(this);
+		this.lockManager.load();
 		
 		/*
 		this.lockedBlocks = new LockedBlockStore(new File(this.baseDirPath + File.separator + "locked-blocks.bin"));
@@ -40,6 +40,7 @@ public class GroupLock extends BasePlugin {
 	
 	public void onDisable(){
 		//this.lockedBlocks.save();
+		this.lockManager.save();
 	}
 	
 }

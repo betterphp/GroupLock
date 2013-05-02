@@ -2,7 +2,6 @@ package uk.co.jacekk.bukkit.grouplock.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -77,6 +76,8 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 					lockable.removeAllowedPlayer(args[1]);
 					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been removed from the access list"));
 				}
+				
+				plugin.lockManager.saveLockable(lockable);
 			}else{
 				plugin.lockManager.removeLockedBlock(lockable.getLocation());
 				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
