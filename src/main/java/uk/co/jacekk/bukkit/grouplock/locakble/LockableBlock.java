@@ -3,17 +3,15 @@ package uk.co.jacekk.bukkit.grouplock.locakble;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.entity.Player;
-
 public class LockableBlock {
 	
 	private BlockLocation location;
 	private String owner;
 	private List<String> alloweds;
 	
-	public LockableBlock(BlockLocation location, Player owner){
+	public LockableBlock(BlockLocation location, String ownerName){
 		this.location = location;
-		this.owner = owner.getName();
+		this.owner = ownerName.toLowerCase();
 		this.alloweds = new ArrayList<String>();
 	}
 	
@@ -26,7 +24,7 @@ public class LockableBlock {
 	}
 	
 	public boolean canPlayerModify(String name){
-		return this.owner.equals(name);
+		return this.owner.equalsIgnoreCase(name);
 	}
 	
 	public List<String> getAllowed(){
@@ -34,15 +32,15 @@ public class LockableBlock {
 	}
 	
 	public boolean canPlayerAccess(String name){
-		return (this.owner.equals(name) || this.alloweds.contains(name));
+		return (this.owner.equalsIgnoreCase(name) || this.alloweds.contains(name.toLowerCase()));
 	}
 	
 	public void addAllowedPlayer(String name){
-		this.alloweds.add(name);
+		this.alloweds.add(name.toLowerCase());
 	}
 	
 	public void removeAllowedPlayer(String name){
-		this.alloweds.remove(name);
+		this.alloweds.remove(name.toLowerCase());
 	}
 	
 }

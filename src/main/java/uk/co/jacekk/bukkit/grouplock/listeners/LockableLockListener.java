@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
+import uk.co.jacekk.bukkit.grouplock.LockableType;
 import uk.co.jacekk.bukkit.grouplock.Permission;
 import uk.co.jacekk.bukkit.grouplock.locakble.BlockLocation;
 import uk.co.jacekk.bukkit.grouplock.locakble.LockableBlock;
@@ -94,7 +95,7 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
 					}else{
 						for (LockableBlock lockable : lockables){
-							plugin.lockManager.addLockedBlock(lockable.getLocation(), player);
+							plugin.lockManager.addLockedBlock(lockable.getLocation(), playerName);
 						}
 						
 						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " locked"));
@@ -112,19 +113,19 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
-		if (Permission.LOCK.has(player) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
+		if (LockableType.getLockabletypes().contains(block.getType()) && Permission.LOCK.has(player) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
 			ArrayList<LockableBlock> surrounding = this.getLockables(block);
 			
 			if (surrounding.size() > 1){
 				for (LockableBlock test : surrounding){
 					if (test.canPlayerModify(playerName)){
-						plugin.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), player);
+						plugin.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), playerName);
 						player.sendMessage(ChatColor.LIGHT_PURPLE + "Locked block joined.");
 						return;
 					}
 				}
 			}else{
-				plugin.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), player);
+				plugin.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), playerName);
 				
 				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + block.getType().name().toLowerCase().replace('_', ' ') + " created"));
 				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "To unlock it use /lock while looking at it"));

@@ -7,7 +7,11 @@ import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableProtectListener;
+import uk.co.jacekk.bukkit.grouplock.locakble.BlockLocation;
 import uk.co.jacekk.bukkit.grouplock.locakble.LockManager;
+import uk.co.jacekk.bukkit.grouplock.locakble.LockableBlock;
+import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStorable;
+import uk.co.jacekk.bukkit.grouplock.storage.LockedBlockStore;
 
 public class GroupLock extends BasePlugin {
 	
@@ -21,14 +25,24 @@ public class GroupLock extends BasePlugin {
 		this.lockManager = new LockManager(this);
 		this.lockManager.load();
 		
-		/*
-		this.lockedBlocks = new LockedBlockStore(new File(this.baseDirPath + File.separator + "locked-blocks.bin"));
-		this.lockedBlocks.load();
+		File oldLockFile= new File(this.baseDirPath + File.separator + "locked-blocks.bin");
 		
-		this.locker = new Locker(this);
-		
-		this.scheduler.scheduleSyncDelayedTask(this, new SetBlockMetadataTask(this), 5L);
-		*/
+		if (oldLockFile.exists()){
+			LockedBlockStore oldLocks = new LockedBlockStore(oldLockFile);
+			oldLocks.load();
+			
+			for (LockedBlockStorable oldLock : oldLocks.getAll()){
+				LockableBlock lockable = this.lockManager.addLockedBlock(new BlockLocation(oldLock.getBlock().getLocation()), oldLock.getOwner());
+				
+				for (String allowed : oldLock.getAllowed()){
+					lockable.addAllowedPlayer(allowed);
+				}
+				
+				this.lockManager.saveLockable(lockable);
+			}
+			
+			//oldLockFile.delete();
+		}
 		
 		this.pluginManager.registerEvents(new LockableLockListener(this), this);
 		this.pluginManager.registerEvents(new LockableProtectListener(this), this);

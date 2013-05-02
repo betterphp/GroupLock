@@ -101,12 +101,16 @@ public class LockManager extends BaseObject<GroupLock> {
 		return null;
 	}
 	
-	public void addLockedBlock(BlockLocation location, Player owner){
+	public LockableBlock addLockedBlock(BlockLocation location, String ownerName){
 		if (this.lockedBlocks.containsKey(location)){
 			throw new IllegalArgumentException("Locked block already exists at this location");
 		}
 		
-		this.saveLockable(this.lockedBlocks.put(location, new LockableBlock(location, owner)));
+		LockableBlock lockable = this.lockedBlocks.put(location, new LockableBlock(location, ownerName));
+		
+		this.saveLockable(lockable);
+		
+		return lockable;
 	}
 	
 	public void removeLockedBlock(BlockLocation location){
