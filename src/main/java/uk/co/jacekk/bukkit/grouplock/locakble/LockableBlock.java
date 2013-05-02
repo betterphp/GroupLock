@@ -36,7 +36,11 @@ public class LockableBlock {
 	}
 	
 	public void addAllowedPlayer(String name){
-		this.allowedPlayers.add(name.toLowerCase());
+		name = name.toLowerCase();
+		
+		if (!this.allowedPlayers.contains(name)){
+			this.allowedPlayers.add(name);
+		}
 	}
 	
 	public void removeAllowedPlayer(String name){
