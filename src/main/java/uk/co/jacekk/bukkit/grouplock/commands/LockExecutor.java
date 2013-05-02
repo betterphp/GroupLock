@@ -62,8 +62,10 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 		ArrayList<LockableBlock> lockables = plugin.getLockables(block);
 		
 		if (lockables.isEmpty()){
-			plugin.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), playerName);
-			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " locked"));
+			for (Block lock : plugin.getLockableBlocks(block)){
+				plugin.lockManager.addLockedBlock(new BlockLocation(lock.getLocation()), playerName);
+				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " locked"));
+			}
 		}else{
 			for (LockableBlock lockable : plugin.getLockables(block)){
 				if (!Permission.UNLOCK_LOCKED.has(player) && !lockable.canPlayerModify(playerName)){

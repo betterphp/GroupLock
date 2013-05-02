@@ -91,29 +91,33 @@ public class GroupLock extends BasePlugin {
 		
 		this.log.info("Loaded " + this.lockManager.getTotalLockedBlocks() + " locked blocks");
 	}
-
-	public ArrayList<LockableBlock> getLockables(Block block){
-		ArrayList<LockableBlock> lockables = new ArrayList<LockableBlock>(2);
+	
+	public ArrayList<Block> getLockableBlocks(Block source){
+		ArrayList<Block> blocks = new ArrayList<Block>();
 		
-		Material type = block.getType();
+		blocks.add(source);
 		
-		LockableBlock lockable = this.lockManager.getLockedBlock(block.getLocation());
-		
-		if (lockable != null){
-			lockables.add(lockable);
+		if (this.searchLocations.containsKey(source.getType())){
+			for (BlockFace face : this.searchLocations.get(source.getType())){
+				Block test = source.getRelative(face);
+				
+				if (test.getType() == source.getType()){
+					blocks.add(test);
+				}
+			}
 		}
 		
-		if (this.searchLocations.containsKey(type)){
-			for (BlockFace face : this.searchLocations.get(type)){
-				Block test = block.getRelative(face);
-				
-				if (test.getType() == type){
-					LockableBlock testLockable = this.lockManager.getLockedBlock(block.getLocation());
-					
-					if (testLockable != null){
-						lockables.add(testLockable);
-					}
-				}
+		return blocks;
+	}
+
+	public ArrayList<LockableBlock> getLockables(Block source){
+		ArrayList<LockableBlock> lockables = new ArrayList<LockableBlock>(2);
+		
+		for (Block block : this.getLockableBlocks(source)){
+			LockableBlock lockable = this.lockManager.getLockedBlock(block.getLocation());
+			
+			if (lockable != null){
+				lockables.add(lockable);
 			}
 		}
 		
