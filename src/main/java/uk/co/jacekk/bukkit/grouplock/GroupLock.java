@@ -4,7 +4,6 @@ import java.io.File;
 
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
-import uk.co.jacekk.bukkit.grouplock.commands.GrantExecutor;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableLockListener;
 import uk.co.jacekk.bukkit.grouplock.listeners.LockableProtectListener;
@@ -34,7 +33,6 @@ public class GroupLock extends BasePlugin {
 		this.pluginManager.registerEvents(new LockableLockListener(this), this);
 		this.pluginManager.registerEvents(new LockableProtectListener(this), this);
 		
-		this.commandManager.registerCommandExecutor(new GrantExecutor(this));
 		this.commandManager.registerCommandExecutor(new LockExecutor(this));
 		
 		this.permissionManager.registerPermissions(Permission.class);
