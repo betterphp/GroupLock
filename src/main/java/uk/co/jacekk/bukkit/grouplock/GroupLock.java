@@ -2,6 +2,8 @@ package uk.co.jacekk.bukkit.grouplock;
 
 import java.io.File;
 
+import org.bukkit.block.Block;
+
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
@@ -32,13 +34,17 @@ public class GroupLock extends BasePlugin {
 			oldLocks.load();
 			
 			for (LockedBlockStorable oldLock : oldLocks.getAll()){
-				LockableBlock lockable = this.lockManager.addLockedBlock(new BlockLocation(oldLock.getBlock().getLocation()), oldLock.getOwner());
+				Block block = oldLock.getBlock();
 				
-				for (String allowed : oldLock.getAllowed()){
-					lockable.addAllowedPlayer(allowed);
+				if (block != null){
+					LockableBlock lockable = this.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), oldLock.getOwner());
+					
+					for (String allowed : oldLock.getAllowed()){
+						lockable.addAllowedPlayer(allowed);
+					}
+					
+					this.lockManager.saveLockable(lockable);
 				}
-				
-				this.lockManager.saveLockable(lockable);
 			}
 			
 			//oldLockFile.delete();
