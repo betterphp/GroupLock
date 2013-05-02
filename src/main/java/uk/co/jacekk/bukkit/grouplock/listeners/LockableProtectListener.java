@@ -53,6 +53,8 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 			if (!lockable.canPlayerModify(playerName)){
 				event.setCancelled(true);
 				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwner()));
+			}else{
+				plugin.lockManager.removeLockedBlock(lockable.getLocation());
 			}
 		}else{
 			World world = block.getWorld();
