@@ -2,8 +2,6 @@ package uk.co.jacekk.bukkit.grouplock;
 
 import java.io.File;
 
-import org.bukkit.block.Block;
-
 import uk.co.jacekk.bukkit.baseplugin.BasePlugin;
 import uk.co.jacekk.bukkit.baseplugin.config.PluginConfig;
 import uk.co.jacekk.bukkit.grouplock.commands.LockExecutor;
@@ -30,22 +28,34 @@ public class GroupLock extends BasePlugin {
 		File oldLockFile= new File(this.baseDirPath + File.separator + "locked-blocks.bin");
 		
 		if (oldLockFile.exists()){
+			this.log.info("Converting lock storage format, this may take some time ...");
+			
+			long startTime = System.currentTimeMillis();
+			
 			LockedBlockStore oldLocks = new LockedBlockStore(oldLockFile);
 			oldLocks.load();
 			
 			for (LockedBlockStorable oldLock : oldLocks.getAll()){
-				Block block = oldLock.getBlock();
+				BlockLocation location = oldLock.getLocation();
 				
-				if (block != null){
-					LockableBlock lockable = this.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), oldLock.getOwner());
-					
-					for (String allowed : oldLock.getAllowed()){
-						lockable.addAllowedPlayer(allowed);
+				if (location != null){
+					try{
+						LockableBlock lockable = this.lockManager.addLockedBlock(location, oldLock.getOwner());
+						
+						for (String allowed : oldLock.getAllowed()){
+							lockable.addAllowedPlayer(allowed);
+						}
+						
+						this.lockManager.saveLockable(lockable);
+					}catch (IllegalArgumentException e){
+						this.log.info("Failed to convert lock: " + e.getMessage());
 					}
-					
-					this.lockManager.saveLockable(lockable);
 				}
 			}
+			
+			long timeTaken = System.currentTimeMillis() - startTime;
+			
+			this.log.info("Converted " + oldLocks.size(true) + " locked blocks in " + timeTaken + " ms");
 			
 			//oldLockFile.delete();
 		}

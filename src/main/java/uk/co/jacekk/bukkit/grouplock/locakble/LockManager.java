@@ -109,7 +109,13 @@ public class LockManager extends BaseObject<GroupLock> {
 			throw new IllegalArgumentException("Locked block already exists at this location");
 		}
 		
-		LockableBlock lockable = this.lockedBlocks.put(location, new LockableBlock(location, ownerName));
+		if (plugin.server.getWorld(location.getWorldUID()) == null){
+			throw new IllegalArgumentException("No world with UID " + location.getWorldUID().toString() + " loaded");
+		}
+		
+		LockableBlock lockable = new LockableBlock(location, ownerName);
+		
+		this.lockedBlocks.put(location, lockable);
 		
 		this.saveLockable(lockable);
 		

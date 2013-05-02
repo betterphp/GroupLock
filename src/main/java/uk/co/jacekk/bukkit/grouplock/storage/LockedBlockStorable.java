@@ -9,6 +9,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
+import uk.co.jacekk.bukkit.grouplock.locakble.BlockLocation;
+
 public class LockedBlockStorable implements Serializable {
 	
 	private static final long serialVersionUID = 4050384430959509986L;
@@ -36,6 +38,10 @@ public class LockedBlockStorable implements Serializable {
 	
 	public boolean equals(Location location){
 		return (this.worldUUID.equals(location.getWorld().getUID()) && this.x.equals(location.getBlockX()) && this.y.equals(location.getBlockY()) && this.z.equals(location.getBlockZ()));
+	}
+	
+	public BlockLocation getLocation(){
+		return new BlockLocation(this.worldUUID, this.x, this.y, this.z);
 	}
 	
 	public Block getBlock(){
