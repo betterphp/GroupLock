@@ -17,6 +17,7 @@ public class GroupLock extends BasePlugin {
 	
 	public LockManager lockManager;
 	
+	@Override
 	public void onEnable(){
 		super.onEnable(true);
 		
@@ -25,7 +26,7 @@ public class GroupLock extends BasePlugin {
 		this.lockManager = new LockManager(this);
 		this.lockManager.load();
 		
-		File oldLockFile= new File(this.baseDirPath + File.separator + "locked-blocks.bin");
+		File oldLockFile = new File(this.baseDirPath + File.separator + "locked-blocks.bin");
 		
 		if (oldLockFile.exists()){
 			this.log.info("Converting lock storage format, this may take some time ...");
@@ -66,11 +67,6 @@ public class GroupLock extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new LockExecutor(this));
 		
 		this.permissionManager.registerPermissions(Permission.class);
-	}
-	
-	public void onDisable(){
-		//this.lockedBlocks.save();
-		this.lockManager.save();
 	}
 	
 }
