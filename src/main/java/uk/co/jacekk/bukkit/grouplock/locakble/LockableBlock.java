@@ -7,12 +7,12 @@ public class LockableBlock {
 	
 	private BlockLocation location;
 	private String owner;
-	private List<String> alloweds;
+	private List<String> allowedPlayers;
 	
 	public LockableBlock(BlockLocation location, String ownerName){
 		this.location = location;
 		this.owner = ownerName.toLowerCase();
-		this.alloweds = new ArrayList<String>();
+		this.allowedPlayers = new ArrayList<String>();
 	}
 	
 	public BlockLocation getLocation(){
@@ -27,20 +27,20 @@ public class LockableBlock {
 		return this.owner.equalsIgnoreCase(name);
 	}
 	
-	public List<String> getAllowed(){
-		return this.alloweds;
+	public List<String> getAllowedPlayers(){
+		return this.allowedPlayers;
 	}
 	
 	public boolean canPlayerAccess(String name){
-		return (this.owner.equalsIgnoreCase(name) || this.alloweds.contains(name.toLowerCase()));
+		return (this.owner.equalsIgnoreCase(name) || this.allowedPlayers.contains(name.toLowerCase()));
 	}
 	
 	public void addAllowedPlayer(String name){
-		this.alloweds.add(name.toLowerCase());
+		this.allowedPlayers.add(name.toLowerCase());
 	}
 	
 	public void removeAllowedPlayer(String name){
-		this.alloweds.remove(name.toLowerCase());
+		this.allowedPlayers.remove(name.toLowerCase());
 	}
 	
 }
