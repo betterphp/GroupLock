@@ -1,14 +1,10 @@
 package uk.co.jacekk.bukkit.grouplock.listeners;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,43 +22,8 @@ import uk.co.jacekk.bukkit.grouplock.locakble.LockableBlock;
 
 public class LockableLockListener extends BaseListener<GroupLock> {
 	
-	private HashMap<Material, List<BlockFace>> searchLocations;
-	
 	public LockableLockListener(GroupLock plugin){
 		super(plugin);
-		
-		this.searchLocations = new HashMap<Material, List<BlockFace>>();
-		
-		this.searchLocations.put(Material.CHEST, Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST));
-		this.searchLocations.put(Material.TRAPPED_CHEST, Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST));
-	}
-	
-	private ArrayList<LockableBlock> getLockables(Block block){
-		ArrayList<LockableBlock> lockables = new ArrayList<LockableBlock>(2);
-		
-		Material type = block.getType();
-		
-		LockableBlock lockable = plugin.lockManager.getLockedBlock(block.getLocation());
-		
-		if (lockable != null){
-			lockables.add(lockable);
-		}
-		
-		if (this.searchLocations.containsKey(type)){
-			for (BlockFace face : this.searchLocations.get(type)){
-				Block test = block.getRelative(face);
-				
-				if (test.getType() == type){
-					LockableBlock testLockable = plugin.lockManager.getLockedBlock(block.getLocation());
-					
-					if (testLockable != null){
-						lockables.add(testLockable);
-					}
-				}
-			}
-		}
-		
-		return lockables;
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -79,7 +40,7 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 			String playerName = player.getName();
 			
 			if (clickedWith == Material.STICK && Permission.LOCK.has(player)){
-				ArrayList<LockableBlock> lockables = this.getLockables(block);
+				ArrayList<LockableBlock> lockables = plugin.getLockables(block);
 				
 				if (!lockables.isEmpty()){
 					if (!lockables.get(0).canPlayerModify(playerName)){
@@ -114,7 +75,7 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 		String playerName = player.getName();
 		
 		if (LockableType.getLockabletypes().contains(block.getType()) && Permission.LOCK.has(player) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
-			ArrayList<LockableBlock> surrounding = this.getLockables(block);
+			ArrayList<LockableBlock> surrounding = plugin.getLockables(block);
 			
 			if (surrounding.size() > 1){
 				for (LockableBlock test : surrounding){

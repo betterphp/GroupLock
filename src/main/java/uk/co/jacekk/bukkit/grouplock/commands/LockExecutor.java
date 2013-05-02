@@ -1,5 +1,7 @@
 package uk.co.jacekk.bukkit.grouplock.commands;
 
+import java.util.ArrayList;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -57,30 +59,32 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 			return;
 		}
 		
-		LockableBlock lockable = plugin.lockManager.getLockedBlock(block.getLocation());
+		ArrayList<LockableBlock> lockables = plugin.getLockables(block);
 		
-		if (lockable == null){
+		if (lockables.isEmpty()){
 			plugin.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), playerName);
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " locked"));
 		}else{
-			if (!Permission.UNLOCK_LOCKED.has(player) && !lockable.canPlayerModify(playerName)){
-				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwner()));
-				return;
-			}
-			
-			if (args.length == 2){
-				if (args[0].equalsIgnoreCase("add")){
-					lockable.addAllowedPlayer(args[1]);
-					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been added to the access list"));
-				}else{
-					lockable.removeAllowedPlayer(args[1]);
-					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been removed from the access list"));
+			for (LockableBlock lockable : plugin.getLockables(block)){
+				if (!Permission.UNLOCK_LOCKED.has(player) && !lockable.canPlayerModify(playerName)){
+					player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwner()));
+					return;
 				}
 				
-				plugin.lockManager.saveLockable(lockable);
-			}else{
-				plugin.lockManager.removeLockedBlock(lockable.getLocation());
-				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
+				if (args.length == 2){
+					if (args[0].equalsIgnoreCase("add")){
+						lockable.addAllowedPlayer(args[1]);
+						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been added to the access list"));
+					}else{
+						lockable.removeAllowedPlayer(args[1]);
+						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been removed from the access list"));
+					}
+					
+					plugin.lockManager.saveLockable(lockable);
+				}else{
+					plugin.lockManager.removeLockedBlock(lockable.getLocation());
+					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
+				}
 			}
 		}
 	}
