@@ -1,36 +1,25 @@
 package uk.co.jacekk.bukkit.grouplock.commands;
 
-import net.minecraft.server.v1_4_R1.TileEntity;
-import net.minecraft.server.v1_4_R1.World;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
 import uk.co.jacekk.bukkit.baseplugin.command.BaseCommandExecutor;
 import uk.co.jacekk.bukkit.baseplugin.command.CommandHandler;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
+import uk.co.jacekk.bukkit.grouplock.LockableType;
 import uk.co.jacekk.bukkit.grouplock.Permission;
-import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
+import uk.co.jacekk.bukkit.grouplock.locakble.BlockLocation;
+import uk.co.jacekk.bukkit.grouplock.locakble.LockableBlock;
 
 public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 	
 	public LockExecutor(GroupLock plugin){
 		super(plugin);
-	}
-	
-	@CommandHandler(names = {"claim", "c"}, description = "Marks a block as yours so it can be locked")
-	public void claim(CommandSender sender, String label, String[] args){
-		
-	}
-	
-	@CommandHandler(names = {"unclaim", "uc"}, description = "Removes you as the owner of a block so someone else can claim it")
-	public void unclaim(CommandSender sender, String label, String[] args){
-		
 	}
 	
 	@CommandHandler(names = {"lock", "l"}, description = "Lock or unlock a block", usage = "[<add/remove> <player_name>]")
@@ -53,30 +42,30 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 			return;
 		}
 		
-		Block block = player.getTargetBlock(null, 20);
-		Material type = block.getType();
+		Block block = player.getTargetBlock(null, 10);
 		
-		World world = ((CraftWorld) player.getWorld()).getHandle();
-		TileEntity tileEntity = world.getTileEntity(block.getX(), block.getY(), block.getZ());
-		
-		String blockName = type.name().toLowerCase().replace('_', ' ');
-		String ucfBlockName = Character.toUpperCase(blockName.charAt(0)) + blockName.substring(1);
-		
-		if (tileEntity == null || !(tileEntity instanceof TileEntityLockable)){
-			player.sendMessage(plugin.formatMessage(ChatColor.RED + "A" + blockName + " is not a lockable block"));
+		if (block == null){
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "You must be looking at a block"));
 			return;
 		}
 		
-		// TODO: get adjacent blocks
+		Material type = block.getType();
+		String blockName = type.name().toLowerCase().replace('_', ' ');
+		String ucfBlockName = Character.toUpperCase(blockName.charAt(0)) + blockName.substring(1);
 		
-		TileEntityLockable lockable = (TileEntityLockable) tileEntity;
+		if (!LockableType.getLockabletypes().contains(type)){
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "A " + blockName + " is not a lockable block"));
+			return;
+		}
 		
-		if (!lockable.hasOwnerName()){
-			lockable.setOwnerName(playerName);
+		LockableBlock lockable = plugin.lockManager.getLockedBlock(block.getLocation());
+		
+		if (lockable == null){
+			plugin.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), player);
 			player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " locked"));
 		}else{
-			if (!Permission.UNLOCK_LOCKED.has(player) && !lockable.canModify(playerName)){
-				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwnerName()));
+			if (!Permission.UNLOCK_LOCKED.has(player) && !lockable.canPlayerModify(playerName)){
+				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwner()));
 				return;
 			}
 			
@@ -89,15 +78,10 @@ public class LockExecutor extends BaseCommandExecutor<GroupLock> {
 					player.sendMessage(plugin.formatMessage(ChatColor.GREEN + args[1] + " has been removed from the access list"));
 				}
 			}else{
-				lockable.reset();
+				plugin.lockManager.removeLockedBlock(lockable.getLocation());
 				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
 			}
 		}
-	}
-	
-	@CommandHandler(names = {"unlock", "ul"}, description = "Unlocks a block")
-	public void unlock(CommandSender sender, String label, String[] args){
-		
 	}
 	
 }

@@ -5,26 +5,23 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import net.minecraft.server.v1_4_R1.TileEntity;
-import net.minecraft.server.v1_4_R1.World;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.Config;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
 import uk.co.jacekk.bukkit.grouplock.Permission;
-import uk.co.jacekk.bukkit.grouplock.event.LockablePlacedEvent;
-import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
+import uk.co.jacekk.bukkit.grouplock.locakble.BlockLocation;
+import uk.co.jacekk.bukkit.grouplock.locakble.LockableBlock;
 
 public class LockableLockListener extends BaseListener<GroupLock> {
 	
@@ -36,35 +33,35 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 		this.searchLocations = new HashMap<Material, List<BlockFace>>();
 		
 		this.searchLocations.put(Material.CHEST, Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST));
+		this.searchLocations.put(Material.TRAPPED_CHEST, Arrays.asList(BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST));
 	}
 	
-	private ArrayList<TileEntityLockable> getTileEntities(Block block){
-		ArrayList<TileEntityLockable> tileEntities = new ArrayList<TileEntityLockable>(2);
+	private ArrayList<LockableBlock> getLockables(Block block){
+		ArrayList<LockableBlock> lockables = new ArrayList<LockableBlock>(2);
 		
-		World world = ((CraftWorld) block.getWorld()).getHandle();
 		Material type = block.getType();
 		
+		LockableBlock lockable = plugin.lockManager.getLockedBlock(block.getLocation());
+		
+		if (lockable != null){
+			lockables.add(lockable);
+		}
+		
 		if (this.searchLocations.containsKey(type)){
-			TileEntity tileEntity = world.getTileEntity(block.getX(), block.getY(), block.getZ());
-			
-			if (tileEntity != null && tileEntity instanceof TileEntityLockable){
-				tileEntities.add((TileEntityLockable) tileEntity);
-			}
-			
 			for (BlockFace face : this.searchLocations.get(type)){
 				Block test = block.getRelative(face);
 				
 				if (test.getType() == type){
-					tileEntity = world.getTileEntity(test.getX(), test.getY(), test.getZ());
+					LockableBlock testLockable = plugin.lockManager.getLockedBlock(block.getLocation());
 					
-					if (tileEntity != null && tileEntity instanceof TileEntityLockable){
-						tileEntities.add((TileEntityLockable) tileEntity);
+					if (testLockable != null){
+						lockables.add(testLockable);
 					}
 				}
 			}
 		}
 		
-		return tileEntities;
+		return lockables;
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -81,23 +78,23 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 			String playerName = player.getName();
 			
 			if (clickedWith == Material.STICK && Permission.LOCK.has(player)){
-				ArrayList<TileEntityLockable> tileEntities = this.getTileEntities(block);
+				ArrayList<LockableBlock> lockables = this.getLockables(block);
 				
-				if (!tileEntities.isEmpty()){
-					if (!tileEntities.get(0).canModify(playerName)){
-						player.sendMessage(ChatColor.RED + "That " + blockName + " is locked by " + tileEntities.get(0).getOwnerName());
+				if (!lockables.isEmpty()){
+					if (!lockables.get(0).canPlayerModify(playerName)){
+						player.sendMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockables.get(0).getOwner());
 						return;
 					}
 					
-					if (tileEntities.get(0).isOwnerName(playerName)){
-						for (TileEntityLockable lockable : tileEntities){
-							lockable.reset();
+					if (lockables.get(0).canPlayerModify(playerName)){
+						for (LockableBlock lockable : lockables){
+							plugin.lockManager.removeLockedBlock(lockable.getLocation());
 						}
 						
 						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " unlocked"));
 					}else{
-						for (TileEntityLockable lockable : tileEntities){
-							lockable.setOwnerName(playerName);
+						for (LockableBlock lockable : lockables){
+							plugin.lockManager.addLockedBlock(lockable.getLocation(), player);
 						}
 						
 						player.sendMessage(plugin.formatMessage(ChatColor.GREEN + ucfBlockName + " locked"));
@@ -110,26 +107,24 @@ public class LockableLockListener extends BaseListener<GroupLock> {
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onLockablePlace(LockablePlacedEvent event){
+	public void onLockablePlace(BlockPlaceEvent event){
 		Block block = event.getBlock();
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		
 		if (Permission.LOCK.has(player) && !plugin.config.getStringList(Config.IGNORE_WORLDS).contains(block.getWorld().getName())){
-			TileEntityLockable lockable = event.getlockable();
-			ArrayList<TileEntityLockable> surrounding = this.getTileEntities(block);
+			ArrayList<LockableBlock> surrounding = this.getLockables(block);
 			
 			if (surrounding.size() > 1){
-				for (TileEntityLockable test : surrounding){
-					if (test.isOwnerName(playerName)){
-						lockable.setOwnerName(playerName);
+				for (LockableBlock test : surrounding){
+					if (test.canPlayerModify(playerName)){
+						plugin.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), player);
 						player.sendMessage(ChatColor.LIGHT_PURPLE + "Locked block joined.");
-						
 						return;
 					}
 				}
 			}else{
-				lockable.setOwnerName(playerName);
+				plugin.lockManager.addLockedBlock(new BlockLocation(block.getLocation()), player);
 				
 				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "Locked " + block.getType().name().toLowerCase().replace('_', ' ') + " created"));
 				player.sendMessage(plugin.formatMessage(ChatColor.GREEN + "To unlock it use /lock while looking at it"));

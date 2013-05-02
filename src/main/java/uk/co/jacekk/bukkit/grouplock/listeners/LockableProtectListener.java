@@ -1,23 +1,22 @@
 package uk.co.jacekk.bukkit.grouplock.listeners;
 
-import net.minecraft.server.v1_4_R1.TileEntity;
-import net.minecraft.server.v1_4_R1.World;
+import java.util.Iterator;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import uk.co.jacekk.bukkit.baseplugin.event.BaseListener;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
-import uk.co.jacekk.bukkit.grouplock.event.LockableOpenEvent;
-import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
+import uk.co.jacekk.bukkit.grouplock.locakble.LockableBlock;
 
 public class LockableProtectListener extends BaseListener<GroupLock> {
 	
@@ -26,20 +25,19 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	public void onLockableOpen(LockableOpenEvent event){
-		Block block = event.getBlock();
+	public void onLockableOpen(PlayerInteractEvent event){
+		Block block = event.getClickedBlock();
 		Material type = block.getType();
 		String blockName = type.name().toLowerCase().replace('_', ' ');
 		Player player = event.getPlayer();
 		String playerName = player.getName();
-		TileEntityLockable lockable = event.getlockable();
 		
-		if (!lockable.canAccess(playerName)){
+		LockableBlock lockable = plugin.lockManager.getLockedBlock(block.getLocation());
+		
+		if (lockable != null && !lockable.canPlayerAccess(playerName)){
 			event.setCancelled(true);
-			player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwnerName()));
+			player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwner()));
 		}
-		
-		player.sendMessage(plugin.formatMessage(ChatColor.AQUA + "That " + blockName + " is locked by " + lockable.getOwnerName()));
 	}
 	
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -48,17 +46,16 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 		String playerName = player.getName();
 		Block block = event.getBlock();
 		String blockName = block.getType().name().toLowerCase().replace('_', ' ');
-		World world = ((CraftWorld) block.getWorld()).getHandle();
-		TileEntity tileEntity = world.getTileEntity(block.getX(), block.getY(), block.getZ());
 		
-		if (tileEntity != null && tileEntity instanceof TileEntityLockable){
-			TileEntityLockable lockable = (TileEntityLockable) tileEntity;
-			
-			if (!lockable.canModify(playerName)){
+		LockableBlock lockable = plugin.lockManager.getLockedBlock(block.getLocation());
+		
+		if (lockable != null){
+			if (!lockable.canPlayerModify(playerName)){
 				event.setCancelled(true);
-				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwnerName()));
+				player.sendMessage(plugin.formatMessage(ChatColor.RED + "That " + blockName + " is locked by " + lockable.getOwner()));
 			}
 		}else{
+			World world = block.getWorld();
 			int x = block.getX();
 			int y = block.getY();
 			int z = block.getZ();
@@ -66,15 +63,11 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 			for (int dx = -1; dx <= 1; ++dx){
 				for (int dy = -2; dy <= 2; ++dy){
 					for (int dz = -1; dz <= 1; ++dz){
-						tileEntity = world.getTileEntity(x + dx, y + dy, z + dz);
+						LockableBlock areaLockable = plugin.lockManager.getLockedBlock(world, x + dx, y + dy, z + dz);
 						
-						if (tileEntity != null && tileEntity instanceof TileEntityLockable){
-							TileEntityLockable lockable = (TileEntityLockable) tileEntity;
-							
-							if (lockable.canAccess(playerName)){
-								event.setCancelled(true);
-								player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot break blocks this close to a locked " + blockName));
-							}
+						if (areaLockable != null && areaLockable.canPlayerAccess(playerName)){
+							event.setCancelled(true);
+							player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot break blocks this close to a locked " + blockName));
 						}
 					}
 				}
@@ -84,16 +77,13 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 	
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent event){
-		World world = ((CraftWorld) event.getLocation().getWorld()).getHandle();
+		Iterator<Block> blocks = event.blockList().iterator();
 		
-		for (Block block : event.blockList()){
-			TileEntity tileEntity = world.getTileEntity(block.getX(), block.getY(), block.getZ());
+		while (blocks.hasNext()){
+			LockableBlock lockable = plugin.lockManager.getLockedBlock(blocks.next().getLocation());
 			
-			if (tileEntity != null && tileEntity instanceof TileEntityLockable){
-				if (((TileEntityLockable) tileEntity).hasOwnerName()){
-					event.setCancelled(true);
-					return;
-				}
+			if (lockable != null){
+				blocks.remove();
 			}
 		}
 	}
@@ -103,9 +93,8 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 		Player player = event.getPlayer();
 		String playerName = player.getName();
 		Block block = event.getBlock();
-		String blockName = block.getType().name().toLowerCase().replace('_', ' ');
-		World world = ((CraftWorld) block.getWorld()).getHandle();
 		
+		World world = block.getWorld();
 		int x = block.getX();
 		int y = block.getY();
 		int z = block.getZ();
@@ -113,15 +102,13 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 		for (int dx = -1; dx <= 1; ++dx){
 			for (int dy = -2; dy <= 2; ++dy){
 				for (int dz = -1; dz <= 1; ++dz){
-					TileEntity tileEntity = world.getTileEntity(x + dx, y + dy, z + dz);
+					LockableBlock lockable = plugin.lockManager.getLockedBlock(world, x + dx, y + dy, z + dz);
 					
-					if (tileEntity != null && tileEntity instanceof TileEntityLockable){
-						TileEntityLockable lockable = (TileEntityLockable) tileEntity;
+					if (lockable != null && !lockable.canPlayerAccess(playerName)){
+						String blockName = block.getType().name().toLowerCase().replace('_', ' ');
 						
-						if (!lockable.canAccess(playerName)){
-							event.setCancelled(true);
-							player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot place blocks this close to a locked " + blockName));
-						}
+						event.setCancelled(true);
+						player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot place blocks this close to a locked " + blockName));
 					}
 				}
 			}

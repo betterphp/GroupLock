@@ -5,8 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import uk.co.jacekk.bukkit.grouplock.LockableBlock;
-import uk.co.jacekk.bukkit.grouplock.nms.tileentity.TileEntityLockable;
+import uk.co.jacekk.bukkit.grouplock.LockableType;
 
 public class LockablePlacedEvent extends Event {
 	
@@ -14,10 +13,10 @@ public class LockablePlacedEvent extends Event {
 	
 	private Block block;
 	private Player player;
-	private TileEntityLockable lockable;
-	private LockableBlock lockableBlock;
+	private LockableType lockable;
+	private LockableType lockableBlock;
 	
-	public LockablePlacedEvent(Block block, Player player, TileEntityLockable lockable, LockableBlock lockableBlock){
+	public LockablePlacedEvent(Block block, Player player, LockableType lockable, LockableType lockableBlock){
 		this.block = block;
 		this.player = player;
 		this.lockable = lockable;
@@ -40,11 +39,11 @@ public class LockablePlacedEvent extends Event {
 		return this.player;
 	}
 	
-	public TileEntityLockable getlockable(){
+	public LockableType getlockable(){
 		return this.lockable;
 	}
 	
-	public LockableBlock getLockableBlock(){
+	public LockableType getLockableBlock(){
 		return this.lockableBlock;
 	}
 	
