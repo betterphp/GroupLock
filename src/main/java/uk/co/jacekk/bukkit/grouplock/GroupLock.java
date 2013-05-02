@@ -67,6 +67,8 @@ public class GroupLock extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new LockExecutor(this));
 		
 		this.permissionManager.registerPermissions(Permission.class);
+		
+		this.log.info("Loaded " + this.lockManager.getTotalLockedBlocks() + " locked blocks");
 	}
 	
 }

@@ -78,6 +78,10 @@ public class LockManager extends BaseObject<GroupLock> {
 		}
 	}
 	
+	public int getTotalLockedBlocks(){
+		return this.lockedBlocks.size();
+	}
+	
 	public LockableBlock getLockedBlock(BlockLocation location){
 		return this.lockedBlocks.get(location);
 	}
