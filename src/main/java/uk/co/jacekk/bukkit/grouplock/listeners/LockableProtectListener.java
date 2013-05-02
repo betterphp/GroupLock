@@ -67,7 +67,7 @@ public class LockableProtectListener extends BaseListener<GroupLock> {
 					for (int dz = -1; dz <= 1; ++dz){
 						LockableBlock areaLockable = plugin.lockManager.getLockedBlock(world, x + dx, y + dy, z + dz);
 						
-						if (areaLockable != null && areaLockable.canPlayerAccess(playerName)){
+						if (areaLockable != null && !areaLockable.canPlayerAccess(playerName)){
 							event.setCancelled(true);
 							player.sendMessage(plugin.formatMessage(ChatColor.RED + "You cannot break blocks this close to a locked " + blockName));
 						}
