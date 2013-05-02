@@ -10,13 +10,12 @@ import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseObject;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class LockManager extends BaseObject<GroupLock> {
 	
@@ -32,6 +31,10 @@ public class LockManager extends BaseObject<GroupLock> {
 	
 	public void load(){
 		File dir = new File(plugin.getDataFolder(), "locks");
+		
+		if (!dir.exists()){
+			dir.mkdirs();
+		}
 		
 		for (File worldDir : dir.listFiles()){
 			for (File lockFile : worldDir.listFiles()){
