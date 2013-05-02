@@ -36,11 +36,19 @@ public class LockManager extends BaseObject<GroupLock> {
 			dir.mkdirs();
 		}
 		
-		for (File worldDir : dir.listFiles()){
-			for (File lockFile : worldDir.listFiles()){
+		for (String worldDirName : dir.list()){
+			File worldDir = new File(dir, worldDirName);
+			
+			for (String lockFileName : worldDir.list()){
+				File lockFile = new File(worldDir, lockFileName);
+				
 				try{
 					BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(lockFile)));
-					this.gson.fromJson(input, LockableBlock.class);
+					
+					LockableBlock lockable = this.gson.fromJson(input, LockableBlock.class);
+					
+					this.lockedBlocks.put(lockable.getLocation(), lockable);
+					
 					input.close();
 				}catch (Exception e){
 					plugin.log.warn("Failed to load lock file " + lockFile.getName());
