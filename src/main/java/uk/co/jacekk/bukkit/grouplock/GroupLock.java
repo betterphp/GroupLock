@@ -58,7 +58,7 @@ public class GroupLock extends BasePlugin {
 			
 			this.log.info("Converted " + oldLocks.size(true) + " locked blocks in " + timeTaken + " ms");
 			
-			//oldLockFile.delete();
+			oldLockFile.delete();
 		}
 		
 		this.pluginManager.registerEvents(new LockableLockListener(this), this);
