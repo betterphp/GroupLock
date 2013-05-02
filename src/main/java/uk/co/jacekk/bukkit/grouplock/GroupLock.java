@@ -26,40 +26,47 @@ public class GroupLock extends BasePlugin {
 		this.lockManager = new LockManager(this);
 		this.lockManager.load();
 		
-		File oldLockFile = new File(this.baseDirPath + File.separator + "locked-blocks.bin");
-		
-		if (oldLockFile.exists()){
-			this.log.info("Converting lock storage format, this may take some time ...");
+		this.scheduler.runTask(this, new Runnable(){
 			
-			long startTime = System.currentTimeMillis();
-			
-			LockedBlockStore oldLocks = new LockedBlockStore(oldLockFile);
-			oldLocks.load();
-			
-			for (LockedBlockStorable oldLock : oldLocks.getAll()){
-				BlockLocation location = oldLock.getLocation();
+			@Override
+			public void run(){
+				File oldLockFile = new File(baseDirPath + File.separator + "locked-blocks.bin");
 				
-				if (location != null){
-					try{
-						LockableBlock lockable = this.lockManager.addLockedBlock(location, oldLock.getOwner());
+				if (oldLockFile.exists()){
+					log.info("Converting lock storage format, this may take some time ...");
+					
+					long startTime = System.currentTimeMillis();
+					
+					LockedBlockStore oldLocks = new LockedBlockStore(oldLockFile);
+					oldLocks.load();
+					
+					for (LockedBlockStorable oldLock : oldLocks.getAll()){
+						BlockLocation location = oldLock.getLocation();
 						
-						for (String allowed : oldLock.getAllowed()){
-							lockable.addAllowedPlayer(allowed);
+						if (location != null){
+							try{
+								LockableBlock lockable = lockManager.addLockedBlock(location, oldLock.getOwner());
+								
+								for (String allowed : oldLock.getAllowed()){
+									lockable.addAllowedPlayer(allowed);
+								}
+								
+								lockManager.saveLockable(lockable);
+							}catch (IllegalArgumentException e){
+								log.info("Failed to convert lock: " + e.getMessage());
+							}
 						}
-						
-						this.lockManager.saveLockable(lockable);
-					}catch (IllegalArgumentException e){
-						this.log.info("Failed to convert lock: " + e.getMessage());
 					}
+					
+					long timeTaken = System.currentTimeMillis() - startTime;
+					
+					log.info("Converted " + oldLocks.size(true) + " locked blocks in " + timeTaken + " ms");
+					
+					oldLockFile.delete();
 				}
 			}
 			
-			long timeTaken = System.currentTimeMillis() - startTime;
-			
-			this.log.info("Converted " + oldLocks.size(true) + " locked blocks in " + timeTaken + " ms");
-			
-			oldLockFile.delete();
-		}
+		});
 		
 		this.pluginManager.registerEvents(new LockableLockListener(this), this);
 		this.pluginManager.registerEvents(new LockableProtectListener(this), this);
