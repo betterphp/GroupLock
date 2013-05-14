@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -19,43 +19,12 @@ import com.google.gson.GsonBuilder;
 
 public class LockManager extends BaseObject<GroupLock> {
 	
-	private HashMap<BlockLocation, LockableBlock> lockedBlocks;
 	private Gson gson;
 	
 	public LockManager(GroupLock plugin){
 		super(plugin);
 		
-		this.lockedBlocks = new HashMap<BlockLocation, LockableBlock>();
 		this.gson = (new GsonBuilder()).setPrettyPrinting().create();
-	}
-	
-	public void load(){
-		File dir = new File(plugin.getDataFolder(), "locks");
-		
-		if (!dir.exists()){
-			dir.mkdirs();
-		}
-		
-		for (String worldDirName : dir.list()){
-			File worldDir = new File(dir, worldDirName);
-			
-			for (String lockFileName : worldDir.list()){
-				File lockFile = new File(worldDir, lockFileName);
-				
-				try{
-					BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(lockFile)));
-					
-					LockableBlock lockable = this.gson.fromJson(input, LockableBlock.class);
-					
-					this.lockedBlocks.put(lockable.getLocation(), lockable);
-					
-					input.close();
-				}catch (Exception e){
-					plugin.log.warn("Failed to load lock file " + lockFile.getName());
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 	
 	public void saveLockable(LockableBlock lockable){
@@ -80,36 +49,23 @@ public class LockManager extends BaseObject<GroupLock> {
 		}
 	}
 	
-	public void save(){
-		for (LockableBlock lockable : this.lockedBlocks.values()){
-			this.saveLockable(lockable);
-		}
-	}
-	
-	public int getTotalLockedBlocks(){
-		return this.lockedBlocks.size();
-	}
-	
-	public LockableBlock getLockedBlock(BlockLocation location){
-		return this.lockedBlocks.get(location);
-	}
-	
 	public LockableBlock getLockedBlock(Location location){
-		for (LockableBlock lockable : this.lockedBlocks.values()){
-			if (lockable.getLocation().equals(location)){
-				return lockable;
-			}
-		}
-		
-		return null;
+		return this.getLockedBlock(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 	
 	public LockableBlock getLockedBlock(World world, int x, int y, int z){
-		for (LockableBlock lockable : this.lockedBlocks.values()){
-			BlockLocation location = lockable.getLocation();
-			
-			if (location.getX() == x && location.getY() == y && location.getZ() == z && location.getWorldUID().equals(world.getUID())){
+		File worldDir = new File(plugin.getDataFolder() + File.separator +  "locks", world.getUID().toString());
+		File lockFile = new File(worldDir, x + "_" + y + "_" + z + ".json");
+		
+		if (lockFile.exists()){
+			try{
+				BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(lockFile)));
+				LockableBlock lockable = this.gson.fromJson(input, LockableBlock.class);
+				input.close();
+				
 				return lockable;
+			}catch (IOException e){
+				e.printStackTrace();
 			}
 		}
 		
@@ -117,7 +73,11 @@ public class LockManager extends BaseObject<GroupLock> {
 	}
 	
 	public LockableBlock addLockedBlock(BlockLocation location, String ownerName){
-		if (this.lockedBlocks.containsKey(location)){
+		String dirName = plugin.getDataFolder() + File.separator +  "locks" + File.separator + location.getWorldUID().toString();
+		String fileName = location.getX() + "_" + location.getY() + "_" + location.getZ() + ".json";
+		File lockFile = new File(dirName, fileName);
+		
+		if (lockFile.exists()){
 			throw new IllegalArgumentException("Locked block already exists at this location");
 		}
 		
@@ -127,24 +87,21 @@ public class LockManager extends BaseObject<GroupLock> {
 		
 		LockableBlock lockable = new LockableBlock(location, ownerName);
 		
-		this.lockedBlocks.put(location, lockable);
-		
 		this.saveLockable(lockable);
 		
 		return lockable;
 	}
 	
 	public void removeLockedBlock(BlockLocation location){
-		if (!this.lockedBlocks.containsKey(location)){
+		String dirName = plugin.getDataFolder() + File.separator +  "locks" + File.separator + location.getWorldUID().toString();
+		String fileName = location.getX() + "_" + location.getY() + "_" + location.getZ() + ".json";
+		File lockFile = new File(dirName, fileName);
+		
+		if (!lockFile.exists()){
 			throw new IllegalArgumentException("No locked exists at this location");
 		}
 		
-		String dirName = plugin.getDataFolder() + File.separator +  "locks" + File.separator + location.getWorldUID().toString();
-		String fileName = location.getX() + "_" + location.getY() + "_" + location.getZ() + ".json";
-		
-		(new File(dirName, fileName)).delete();
-		
-		this.lockedBlocks.remove(location);
+		lockFile.delete();
 	}
 	
 }

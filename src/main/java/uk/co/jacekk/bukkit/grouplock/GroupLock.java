@@ -38,7 +38,6 @@ public class GroupLock extends BasePlugin {
 		this.config = new PluginConfig(new File(this.baseDirPath + File.separator + "config.yml"), Config.class, this.log);
 		
 		this.lockManager = new LockManager(this);
-		this.lockManager.load();
 		
 		this.scheduler.runTask(this, new Runnable(){
 			
@@ -88,8 +87,6 @@ public class GroupLock extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new LockExecutor(this));
 		
 		this.permissionManager.registerPermissions(Permission.class);
-		
-		this.log.info("Loaded " + this.lockManager.getTotalLockedBlocks() + " locked blocks");
 	}
 	
 	public ArrayList<Block> getLockableBlocks(Block source){
