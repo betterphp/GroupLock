@@ -87,10 +87,6 @@ public class GroupLock extends BasePlugin {
 		this.commandManager.registerCommandExecutor(new LockExecutor(this));
 		
 		this.permissionManager.registerPermissions(Permission.class);
-		
-		if (this.config.getBoolean(Config.ENABLE_PROFILER)){
-			this.enableProfiling();
-		}
 	}
 	
 	public ArrayList<Block> getLockableBlocks(Block source){
