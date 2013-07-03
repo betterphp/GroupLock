@@ -9,10 +9,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 
 import uk.co.jacekk.bukkit.baseplugin.BaseObject;
 import uk.co.jacekk.bukkit.grouplock.GroupLock;
+import uk.co.jacekk.bukkit.grouplock.LockableType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,6 +56,12 @@ public class LockManager extends BaseObject<GroupLock> {
 	}
 	
 	public LockableBlock getLockedBlock(World world, int x, int y, int z){
+		Material type = world.getBlockAt(x, y, z).getType();
+		
+		if (!LockableType.getLockabletypes().contains(type)){
+			return null;
+		}
+		
 		File worldDir = new File(plugin.getDataFolder() + File.separator +  "locks", world.getUID().toString());
 		File lockFile = new File(worldDir, x + "_" + y + "_" + z + ".json");
 		
